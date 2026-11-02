@@ -1,0 +1,21 @@
+rules:
+- id: kotlin-runtime-command-execution
+  languages:
+  - kotlin
+  severity: ERROR
+  message: Direct Runtime.exec or ProcessBuilder command execution requires strict input validation
+  metadata:
+    category: security
+    technology:
+    - kotlin
+    confidence: MEDIUM
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: Runtime.exec and ProcessBuilder cross an operating-system trust boundary; untrusted command fragments can enable
+      command injection.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runtime.html#exec(java.lang.String)
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ProcessBuilder.html
+  pattern-either:
+  - pattern: Runtime.getRuntime().exec(...)
+  - pattern: ProcessBuilder(...)

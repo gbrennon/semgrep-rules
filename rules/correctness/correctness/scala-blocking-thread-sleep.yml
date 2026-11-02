@@ -1,0 +1,19 @@
+rules:
+- id: scala-blocking-thread-sleep
+  languages:
+  - scala
+  severity: WARNING
+  message: Thread.sleep blocks the current execution thread; use a non-blocking scheduler or timer
+  metadata:
+    category: correctness
+    technology:
+    - scala
+    confidence: HIGH
+    scope: generic-scala
+    policy: opt-in
+    rationale: Thread.sleep blocks a worker thread and is especially harmful inside Future, actor, or effect runtimes.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Thread.html#sleep(long)
+  pattern-either:
+  - pattern: Thread.sleep(...)
+  - pattern: java.lang.Thread.sleep(...)

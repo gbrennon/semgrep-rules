@@ -1,0 +1,18 @@
+rules:
+- id: haskell-unsafe-global-mutable-state
+  languages:
+  - generic
+  severity: ERROR
+  message: Do not expose mutable global state created with unsafePerformIO; encapsulate state behind controlled operations
+  metadata:
+    category: design
+    technology:
+    - haskell
+    confidence: HIGH
+    scope: generic-haskell
+    policy: opt-in
+    rationale: Combining unsafePerformIO with IORef, MVar, or TVar creates hidden global mutation that bypasses explicit effect
+      boundaries and invariants.
+    references:
+    - https://hackage.haskell.org/package/base/docs/System-IO-Unsafe.html#v:unsafePerformIO
+  pattern-regex: \bunsafePerformIO\b[^\n]*(?:IORef|MVar|TVar)|\b(?:IORef|MVar|TVar)\b[^\n]*\bunsafePerformIO\b

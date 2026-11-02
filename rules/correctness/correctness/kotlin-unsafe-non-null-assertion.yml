@@ -1,0 +1,18 @@
+rules:
+- id: kotlin-unsafe-non-null-assertion
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Avoid the non-null assertion operator; handle the nullable case explicitly
+  metadata:
+    category: correctness
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: The !! operator throws a NullPointerException when the value is null. Explicit handling makes the failure path
+      visible and safer.
+    references:
+    - https://kotlinlang.org/docs/null-safety.html
+  pattern-regex: \b[A-Za-z_][A-Za-z0-9_.]*\s*!!

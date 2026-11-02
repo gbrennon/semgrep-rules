@@ -1,0 +1,17 @@
+rules:
+- id: scala-no-setter-methods
+  languages:
+  - scala
+  severity: WARNING
+  message: Prefer intent-revealing state transitions over generic setter methods
+  metadata:
+    category: design
+    technology:
+    - scala
+    confidence: HIGH
+    scope: generic-scala
+    policy: opt-in
+    rationale: Generic setters expose representation-level mutation and make it harder to enforce domain invariants.
+    references:
+    - https://refactoring.guru/smells/primitive-obsession
+  pattern-regex: (?m)^\s*(?:private\s+)?def\s+set[A-Z][A-Za-z0-9_]*\s*\(

@@ -1,0 +1,17 @@
+rules:
+- id: go-defer-close-error
+  languages:
+  - go
+  message: Do not silently discard errors from deferred Close calls
+  severity: WARNING
+  metadata:
+    category: correctness
+    technology:
+    - go
+    confidence: MEDIUM
+    scope: generic-go
+    policy: opt-in
+    rationale: Close may report buffered writes or other failures; handle the error when it matters.
+    references:
+    - https://go.dev/doc/effective_go#defer
+  pattern: defer $RESOURCE.Close()

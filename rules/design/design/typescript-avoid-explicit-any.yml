@@ -1,0 +1,19 @@
+rules:
+- id: typescript-avoid-explicit-any
+  languages:
+  - typescript
+  severity: WARNING
+  message: Avoid explicit any; use an intentional, narrower type
+  metadata:
+    category: design
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Explicit any disables type checking at the boundary where incorrect values are most likely to spread.
+    references:
+    - https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any
+  pattern-regex: '(?m)\b(?:public\s+)?[A-Za-z_$][\w$]*\s*\??\s*:\s*any\b|\)\s*:\s*any\b
+
+    '

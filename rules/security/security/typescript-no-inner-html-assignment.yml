@@ -1,0 +1,17 @@
+rules:
+- id: typescript-no-inner-html-assignment
+  languages:
+  - typescript
+  severity: ERROR
+  message: Avoid assigning untrusted content to innerHTML
+  metadata:
+    category: security
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Writing HTML strings directly into the DOM can introduce cross-site scripting when content is not safely sanitized.
+    references:
+    - https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
+  pattern: $ELEMENT.innerHTML = $VALUE

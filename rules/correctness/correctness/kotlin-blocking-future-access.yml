@@ -1,0 +1,22 @@
+rules:
+- id: kotlin-blocking-future-access
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Avoid blocking Future or CompletableFuture access; compose asynchronous work instead
+  metadata:
+    category: correctness
+    technology:
+    - kotlin
+    confidence: MEDIUM
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: Blocking get/join calls can starve worker threads or deadlock asynchronous execution.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Future.html#get()
+    - https://kotlinlang.org/docs/coroutines-basics.html
+  pattern-either:
+  - pattern: $FUTURE.get(...)
+  - pattern: $FUTURE.join()
+  - pattern: runBlocking { ... }
+  - pattern: runBlocking(...)

@@ -1,0 +1,17 @@
+rules:
+- id: go-no-dot-imports
+  languages:
+  - go
+  message: Avoid dot imports; qualify names to keep their package origin clear
+  severity: WARNING
+  metadata:
+    category: conventions
+    technology:
+    - go
+    confidence: HIGH
+    scope: generic-go
+    policy: opt-in
+    rationale: Dot imports obscure where identifiers come from and increase name collision risk.
+    references:
+    - https://go.dev/wiki/CodeReviewComments#imports
+  pattern-regex: (?m)^\s*(?:import\s+)?\.\s+"[^"\n]+"

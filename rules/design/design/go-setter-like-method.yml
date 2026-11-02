@@ -1,0 +1,17 @@
+rules:
+- id: go-setter-like-method
+  languages:
+  - go
+  message: Prefer intention-revealing behavior over generic setter methods
+  severity: WARNING
+  metadata:
+    category: design
+    technology:
+    - go
+    confidence: HIGH
+    scope: generic-go
+    policy: opt-in
+    rationale: Setter-like APIs expose representation and make it harder to preserve object invariants.
+    references:
+    - https://go.dev/doc/effective_go
+  pattern-regex: (?m)^\s*func\s*\([^)]*\)\s+Set[A-Z][A-Za-z0-9_]*\s*\(

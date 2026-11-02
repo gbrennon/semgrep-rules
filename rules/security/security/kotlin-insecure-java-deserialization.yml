@@ -1,0 +1,18 @@
+rules:
+- id: kotlin-insecure-java-deserialization
+  languages:
+  - kotlin
+  severity: ERROR
+  message: Java ObjectInputStream deserialization is unsafe for untrusted data
+  metadata:
+    category: security
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: Java native deserialization can invoke attacker-controlled gadget chains while reconstructing objects. Prefer
+      a safe, schema-validated data format for untrusted input.
+    references:
+    - https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
+  pattern: $STREAM.readObject(...)

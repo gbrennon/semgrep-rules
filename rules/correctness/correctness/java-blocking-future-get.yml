@@ -1,0 +1,21 @@
+rules:
+- id: java-blocking-future-get
+  languages:
+  - java
+  severity: WARNING
+  message: Blocking on Future.get can stall worker threads; prefer non-blocking composition
+  metadata:
+    category: correctness
+    technology:
+    - java
+    confidence: MEDIUM
+    scope: generic-java
+    policy: opt-in
+    rationale: Future.get blocks until completion and can exhaust thread pools or contribute to deadlocks under load.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/Future.html#get()
+  patterns:
+  - pattern: $FUTURE.get()
+  - metavariable-regex:
+      metavariable: $FUTURE
+      regex: (?i)^(?:future|futuretask|completionstage|task)$

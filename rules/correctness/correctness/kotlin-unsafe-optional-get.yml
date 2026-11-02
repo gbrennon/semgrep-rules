@@ -1,0 +1,17 @@
+rules:
+- id: kotlin-unsafe-optional-get
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Avoid Optional.get(); handle the empty case explicitly
+  metadata:
+    category: correctness
+    technology:
+    - kotlin
+    confidence: MEDIUM
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: Optional.get throws when no value is present. Prefer an explicit fallback or conditional access.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html#get()
+  pattern: $OPTIONAL.get()

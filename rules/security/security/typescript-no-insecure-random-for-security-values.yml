@@ -1,0 +1,22 @@
+rules:
+- id: typescript-no-insecure-random-for-security-values
+  languages:
+  - typescript
+  severity: WARNING
+  message: Do not use Math.random for security-sensitive values; use a cryptographic random source
+  metadata:
+    category: security
+    technology:
+    - typescript
+    confidence: MEDIUM
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Math.random is not designed to be unpredictable and must not generate tokens, secrets, passwords, nonces, or
+      session identifiers.
+    references:
+    - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  patterns:
+  - pattern: $NAME = Math.random(...)
+  - metavariable-regex:
+      metavariable: $NAME
+      regex: (?i)(?:token|secret|password|passwd|nonce|session|auth|key|salt|credential)

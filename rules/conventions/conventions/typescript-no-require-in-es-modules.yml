@@ -1,0 +1,17 @@
+rules:
+- id: typescript-no-require-in-es-modules
+  languages:
+  - typescript
+  severity: WARNING
+  message: Use TypeScript import syntax instead of CommonJS require
+  metadata:
+    category: conventions
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Static imports preserve module structure for the compiler and tooling and keep module conventions consistent.
+    references:
+    - https://www.typescriptlang.org/docs/handbook/modules.html
+  pattern: require($MODULE)

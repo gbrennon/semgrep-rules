@@ -1,0 +1,17 @@
+rules:
+- id: typescript-no-public-mutable-fields
+  languages:
+  - typescript
+  severity: WARNING
+  message: Avoid public mutable fields; expose behavior that preserves invariants
+  metadata:
+    category: design
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Public mutable state lets callers bypass validation and makes object invariants difficult to preserve.
+    references:
+    - https://www.typescriptlang.org/docs/handbook/2/classes.html
+  pattern: "class $CLASS {\n  ...\n  public $FIELD: $TYPE = $VALUE;\n  ...\n}\n"

@@ -1,0 +1,22 @@
+rules:
+- id: typescript-no-import-file-extensions
+  languages:
+  - typescript
+  severity: WARNING
+  message: Do not include a TypeScript source extension in imports
+  metadata:
+    category: conventions
+    technology:
+    - typescript
+    confidence: MEDIUM
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Importing .ts or .tsx source extensions is inconsistent across TypeScript module resolution and can break emitted
+      JavaScript imports.
+    references:
+    - https://www.typescriptlang.org/tsconfig#allowImportingTsExtensions
+  patterns:
+  - pattern: import $IMPORT from "$MODULE"
+  - metavariable-regex:
+      metavariable: $MODULE
+      regex: .*\.(?:ts|tsx).*

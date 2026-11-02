@@ -1,0 +1,21 @@
+rules:
+- id: typescript-no-dynamic-code-execution
+  languages:
+  - typescript
+  severity: ERROR
+  message: Do not evaluate dynamically constructed TypeScript or JavaScript code
+  metadata:
+    category: security
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: eval and Function execute strings as code and can turn untrusted input into arbitrary code execution.
+    references:
+    - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
+    - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
+  pattern-either:
+  - pattern: eval(...)
+  - pattern: Function(...)
+  - pattern: new Function(...)

@@ -1,0 +1,18 @@
+rules:
+- id: haskell-avoid-partial-extraction
+  languages:
+  - generic
+  severity: ERROR
+  message: Avoid partial extraction from lists or Maybe values; handle the empty case explicitly
+  metadata:
+    category: correctness
+    technology:
+    - haskell
+    confidence: HIGH
+    scope: generic-haskell
+    policy: opt-in
+    rationale: fromJust, head, tail, last, and init throw exceptions on values that do not satisfy their preconditions.
+    references:
+    - https://hackage.haskell.org/package/base/docs/Data-Maybe.html#v:fromJust
+    - https://hackage.haskell.org/package/base/docs/Prelude.html#v:head
+  pattern-regex: \b(?:fromJust|head|tail|last|init)(?:\s*\(|\s+\$?\s*[A-Za-z_(\[])

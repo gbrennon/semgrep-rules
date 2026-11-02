@@ -1,0 +1,17 @@
+rules:
+- id: go-review-blank-imports
+  languages:
+  - go
+  message: Review blank imports and document their required initialization side effect
+  severity: INFO
+  metadata:
+    category: conventions
+    technology:
+    - go
+    confidence: HIGH
+    scope: generic-go
+    policy: opt-in
+    rationale: Blank imports are intentionally side-effect-only; unexplained uses can hide dead or accidental dependencies.
+    references:
+    - https://go.dev/ref/spec#Import_declarations
+  pattern-regex: (?m)^\s*(?:import\s+)?_\s+"[^"\n]+"

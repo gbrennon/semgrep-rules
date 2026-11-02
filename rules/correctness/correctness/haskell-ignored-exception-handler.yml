@@ -1,0 +1,18 @@
+rules:
+- id: haskell-ignored-exception-handler
+  languages:
+  - generic
+  severity: WARNING
+  message: Do not silently discard exceptions; handle or record the failure deliberately
+  metadata:
+    category: correctness
+    technology:
+    - haskell
+    confidence: HIGH
+    scope: generic-haskell
+    policy: opt-in
+    rationale: A catch or handle handler that accepts any exception and returns unit hides failures and can make incorrect
+      state appear successful.
+    references:
+    - https://hackage.haskell.org/package/base/docs/Control-Exception.html
+  pattern-regex: \b(?:catch|handle)\s+[^\n]*\\\s*[_A-Za-z][^\n]*->\s*(?:return\s*\(\)|pure\s*\(\)|\(\))

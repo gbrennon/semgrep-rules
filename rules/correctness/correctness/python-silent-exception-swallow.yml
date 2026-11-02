@@ -1,0 +1,21 @@
+rules:
+- id: python-silent-exception-swallow
+  languages:
+  - python
+  severity: WARNING
+  message: Silent swallow of Exception/BaseException hides critical runtime failures
+  metadata:
+    category: correctness
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Catching Exception and simply passing without logging masks errors and prevents debugging.
+    references:
+    - https://docs.python.org/3/tutorial/errors.html#handling-exceptions
+  patterns:
+  - pattern: "try:\n  ...\nexcept $EXC:\n  pass\n"
+  - metavariable-regex:
+      metavariable: $EXC
+      regex: ^(Exception|BaseException)$

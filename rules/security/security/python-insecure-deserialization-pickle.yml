@@ -1,0 +1,21 @@
+rules:
+- id: python-insecure-deserialization-pickle
+  languages:
+  - python
+  message: Insecure deserialization via pickle allows arbitrary code execution
+  severity: ERROR
+  metadata:
+    category: security
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Pickle deserialization executes arbitrary code encoded in the byte stream via the __reduce__ protocol.
+    references:
+    - https://docs.python.org/3/library/pickle.html
+  pattern-either:
+  - pattern: pickle.load(...)
+  - pattern: pickle.loads(...)
+  - pattern: _pickle.load(...)
+  - pattern: _pickle.loads(...)

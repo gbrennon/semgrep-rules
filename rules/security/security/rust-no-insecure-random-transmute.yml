@@ -1,0 +1,19 @@
+rules:
+- id: rust-no-insecure-random-transmute
+  languages:
+  - rust
+  message: Transmuting arbitrary byte buffers into values can cause undefined behavior
+  severity: ERROR
+  metadata:
+    category: security
+    technology:
+    - rust
+    confidence: HIGH
+    scope: generic-rust
+    policy: opt-in
+    rationale: Unchecked std::mem::transmute on byte buffers bypasses invariant checking and may violate validity requirements.
+    references:
+    - https://doc.rust-lang.org/std/mem/fn.transmute.html
+  pattern-either:
+  - pattern: std::mem::transmute(...)
+  - pattern: core::mem::transmute(...)

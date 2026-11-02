@@ -1,0 +1,22 @@
+rules:
+- id: rust-application-service-no-sibling-service-dependencies
+  languages:
+  - rust
+  message: An application service must not import another application service; collaborate through outbound ports and let
+    the composition root wire concrete services together
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Keep application services decoupled by collaborating through ports.
+    references:
+    - https://doc.rust-lang.org/reference/items/use-declarations.html
+  paths:
+    include:
+    - '**/application/**/services/**'
+  patterns:
+  - pattern-regex: (?ms)^\s*(?:pub(?:\([^)]*\))?\s+)?use\b[^;]*\bservices\b(?:::|\s+as\b|[,;} ])

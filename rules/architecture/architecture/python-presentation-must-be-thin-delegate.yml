@@ -1,0 +1,31 @@
+rules:
+- id: python-presentation-must-be-thin-delegate
+  languages:
+  - python
+  severity: ERROR
+  message: Presentation handlers must not query the database directly; delegate to application use cases
+  metadata:
+    category: architecture
+    technology:
+    - python
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: 'Presentation controllers must remain thin adapters: parse input DTOs, invoke application service use cases,
+      and serialize responses. Complex querying and business logic belong in application/domain layers.'
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/presentation/**'
+    - '**/views/**'
+    - '**/controllers/**'
+    - '**/api/**'
+  pattern-either:
+  - pattern: $DB.execute(...)
+  - pattern: $DB.query(...)
+  - pattern: $SESSION.query(...)
+  - pattern: $CURSOR.execute(...)
+  - pattern: $MODEL.objects.filter(...)
+  - pattern: $MODEL.objects.all(...)
+  - pattern: $MODEL.objects.raw(...)

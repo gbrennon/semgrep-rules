@@ -1,0 +1,18 @@
+rules:
+- id: kotlin-control-flow-nesting-above-2
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Control flow is nested deeper than two levels; use guard clauses or extract a helper
+  metadata:
+    category: maintainability
+    technology:
+    - kotlin
+    confidence: MEDIUM
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: Deep nesting increases cognitive load and makes exceptional paths difficult to review. Extracting cohesive
+      operations or using guard clauses keeps control flow understandable.
+    references:
+    - https://kotlinlang.org/docs/coding-conventions.html
+  pattern-regex: (?ms)\bif\s*\([^)]*\)\s*\{(?:(?!^\s*\}).)*\bif\s*\([^)]*\)\s*\{(?:(?!^\s*\}).)*\bif\s*\(

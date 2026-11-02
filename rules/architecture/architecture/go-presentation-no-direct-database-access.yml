@@ -1,0 +1,27 @@
+rules:
+- id: go-presentation-no-direct-database-access
+  languages:
+  - go
+  message: Presentation packages should delegate database access to application or repository code
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - go
+    confidence: MEDIUM
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Keeping persistence out of handlers reduces coupling and preserves application-layer boundaries.
+    references:
+    - https://go.dev/doc/modules/layout
+  paths:
+    include:
+    - '**/presentation/**'
+  pattern-either:
+  - pattern: sql.Open(...)
+  - pattern: $DB.Query(...)
+  - pattern: $DB.QueryContext(...)
+  - pattern: $DB.Exec(...)
+  - pattern: $DB.ExecContext(...)
+  - pattern: $DB.QueryRow(...)
+  - pattern: $DB.QueryRowContext(...)

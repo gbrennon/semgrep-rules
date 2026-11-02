@@ -1,0 +1,22 @@
+rules:
+- id: java-weak-message-digest
+  languages:
+  - java
+  severity: WARNING
+  message: Do not use MD5 or SHA-1 for security-sensitive hashing; use a modern collision-resistant algorithm
+  metadata:
+    category: security
+    technology:
+    - java
+    confidence: HIGH
+    scope: generic-java
+    policy: opt-in
+    rationale: MD5 and SHA-1 have practical collision attacks and should not protect passwords, signatures, tokens, or other
+      security-sensitive data.
+    references:
+    - https://csrc.nist.gov/projects/hash-functions
+  patterns:
+  - pattern: MessageDigest.getInstance($ALGORITHM)
+  - metavariable-regex:
+      metavariable: $ALGORITHM
+      regex: ^"(?:MD5|SHA-?1)"$

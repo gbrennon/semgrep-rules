@@ -1,0 +1,18 @@
+rules:
+- id: haskell-partial-read-deserialization
+  languages:
+  - generic
+  severity: ERROR
+  message: Avoid partial read for untrusted or malformed data; use explicit, validated parsing instead
+  metadata:
+    category: security
+    technology:
+    - haskell
+    confidence: HIGH
+    scope: generic-haskell
+    policy: opt-in
+    rationale: Prelude.read throws an exception when input does not match the expected representation and is unsafe as an
+      untrusted-data boundary.
+    references:
+    - https://hackage.haskell.org/package/base/docs/Prelude.html#v:read
+  pattern-regex: \bread(?:\s+|\()

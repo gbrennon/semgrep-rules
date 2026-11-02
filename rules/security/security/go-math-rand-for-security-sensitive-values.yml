@@ -1,0 +1,26 @@
+rules:
+- id: go-math-rand-for-security-sensitive-values
+  languages:
+  - go
+  message: Do not use math/rand for security-sensitive values; use crypto/rand
+  severity: WARNING
+  metadata:
+    category: security
+    technology:
+    - go
+    confidence: MEDIUM
+    scope: generic-go
+    policy: opt-in
+    rationale: math/rand is predictable and is not suitable for tokens, secrets, reset links, or other security-sensitive
+      values.
+    references:
+    - https://pkg.go.dev/math/rand
+    - https://pkg.go.dev/crypto/rand
+  pattern-either:
+  - pattern: rand.Int(...)
+  - pattern: rand.Intn(...)
+  - pattern: rand.Int31(...)
+  - pattern: rand.Int63(...)
+  - pattern: rand.Uint32(...)
+  - pattern: rand.Uint64(...)
+  - pattern: rand.Read(...)

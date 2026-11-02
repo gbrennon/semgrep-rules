@@ -1,0 +1,21 @@
+rules:
+- id: haskell-application-no-presentation-imports
+  languages:
+  - generic
+  severity: ERROR
+  message: Application code must not import presentation or delivery layers
+  metadata:
+    category: architecture
+    technology:
+    - haskell
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Application services should coordinate use cases and ports without coupling to HTTP, CLI, UI, or other delivery
+      mechanisms.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/application/**'
+  pattern-regex: ^\s*import\s+(?:qualified\s+)?[^\n]*(?:presentation|controller|controllers|view|views|routes|api)(?:\.|\s|$)

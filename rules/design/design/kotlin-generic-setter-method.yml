@@ -1,0 +1,17 @@
+rules:
+- id: kotlin-generic-setter-method
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Prefer intent-revealing state transitions over generic setter methods
+  metadata:
+    category: design
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: Generic setters expose representation-level mutation and make it harder to enforce domain invariants.
+    references:
+    - https://kotlinlang.org/docs/functions.html
+  pattern-regex: (?m)^\s*(?:public\s+)?fun\s+set[A-Z][A-Za-z0-9_]*\s*\(

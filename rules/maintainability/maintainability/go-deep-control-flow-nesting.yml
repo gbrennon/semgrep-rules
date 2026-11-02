@@ -1,0 +1,22 @@
+rules:
+- id: go-deep-control-flow-nesting
+  languages:
+  - go
+  message: Control-flow nesting exceeds two levels; extract a helper function
+  severity: WARNING
+  metadata:
+    category: maintainability
+    technology:
+    - go
+    confidence: HIGH
+    scope: generic-go
+    policy: opt-in
+    rationale: Deeply nested branches and loops are harder to read, test, and modify safely.
+    references:
+    - https://go.dev/doc/effective_go#control-structures
+  pattern-either:
+  - pattern: "if $COND1 {\n  ...\n  if $COND2 {\n    ...\n    if $COND3 {\n      ...\n    }\n    ...\n  }\n  ...\n}\n"
+  - pattern: "for $KEY, $VALUE := range $COLLECTION1 {\n  ...\n  for $KEY2, $VALUE2 := range $COLLECTION2 {\n    ...\n   \
+      \ for $KEY3, $VALUE3 := range $COLLECTION3 {\n      ...\n    }\n    ...\n  }\n  ...\n}\n"
+  - pattern: "if $COND {\n  ...\n  for $KEY, $VALUE := range $COLLECTION {\n    ...\n    if $INNER {\n      ...\n    }\n \
+      \   ...\n  }\n  ...\n}\n"

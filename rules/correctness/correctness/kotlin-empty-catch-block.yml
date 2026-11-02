@@ -1,0 +1,17 @@
+rules:
+- id: kotlin-empty-catch-block
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Do not silently swallow exceptions; handle, report, or document the failure
+  metadata:
+    category: correctness
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: An empty catch block hides failures and makes recovery behavior impossible to understand or observe.
+    references:
+    - https://kotlinlang.org/docs/exceptions.html
+  pattern-regex: (?ms)\bcatch\s*\([^)]*\)\s*\{\s*\}

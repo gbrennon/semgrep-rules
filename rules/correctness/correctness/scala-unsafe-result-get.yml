@@ -1,0 +1,19 @@
+rules:
+- id: scala-unsafe-result-get
+  languages:
+  - scala
+  severity: WARNING
+  message: Avoid unsafe get calls on optional or failure-carrying results; handle the case explicitly
+  metadata:
+    category: correctness
+    technology:
+    - scala
+    confidence: MEDIUM
+    scope: generic-scala
+    policy: opt-in
+    rationale: Calling get on an Option can throw for None, while calling get on a Try rethrows its captured failure. Pattern
+      matching, fold, recover, or getOrElse makes the error path explicit.
+    references:
+    - https://www.scala-lang.org/api/current/scala/Option.html
+    - https://www.scala-lang.org/api/current/scala/util/Try.html
+  pattern: $VALUE.get

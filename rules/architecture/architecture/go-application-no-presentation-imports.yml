@@ -1,0 +1,20 @@
+rules:
+- id: go-application-no-presentation-imports
+  languages:
+  - go
+  message: Application packages must not import presentation packages
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - go
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Application services should coordinate use cases without coupling to delivery mechanisms.
+    references:
+    - https://go.dev/doc/modules/layout
+  paths:
+    include:
+    - '**/application/**'
+  pattern-regex: (?m)^\s*(?:import\s+)?(?:[\w.]+\s+)?"[^"\n]*(?:^|[/._-])presentation(?:[/._-]|\")

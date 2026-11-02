@@ -1,0 +1,20 @@
+rules:
+- id: scala-blocking-await-result
+  languages:
+  - scala
+  severity: WARNING
+  message: Blocking on a Future with Await.result can starve asynchronous execution; compose the Future instead
+  metadata:
+    category: correctness
+    technology:
+    - scala
+    confidence: HIGH
+    scope: generic-scala
+    policy: opt-in
+    rationale: Await.result blocks a thread while an asynchronous computation completes and can exhaust the execution context
+      or deadlock under load.
+    references:
+    - https://www.scala-lang.org/api/current/scala/concurrent/Await$.html
+  pattern-either:
+  - pattern: Await.result(...)
+  - pattern: scala.concurrent.Await.result(...)

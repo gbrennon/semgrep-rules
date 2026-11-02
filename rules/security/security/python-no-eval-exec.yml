@@ -1,0 +1,19 @@
+rules:
+- id: python-no-eval-exec
+  languages:
+  - python
+  message: Dynamic code execution via eval/exec is dangerous and can lead to remote code execution
+  severity: ERROR
+  metadata:
+    category: security
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Dynamic code execution bypasses type safety and allows arbitrary code execution from untrusted inputs.
+    references:
+    - https://owasp.org/www-community/attacks/Code_Injection
+  pattern-either:
+  - pattern: eval(...)
+  - pattern: exec(...)

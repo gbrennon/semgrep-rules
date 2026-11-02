@@ -1,0 +1,19 @@
+rules:
+- id: haskell-system-process-command-execution
+  languages:
+  - generic
+  severity: ERROR
+  message: Direct System.Process command execution requires strict input validation; avoid passing untrusted strings to the
+    operating system
+  metadata:
+    category: security
+    technology:
+    - haskell
+    confidence: HIGH
+    scope: generic-haskell
+    policy: opt-in
+    rationale: System.Process.system invokes a command through the shell. Command strings assembled from untrusted input can
+      enable command injection.
+    references:
+    - https://hackage.haskell.org/package/process/docs/System-Process.html
+  pattern-regex: \b(?:System\.Process\.)?system(?:\s+|\()

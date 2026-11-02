@@ -1,0 +1,26 @@
+rules:
+- id: typescript-application-no-presentation-imports
+  languages:
+  - typescript
+  severity: ERROR
+  message: Application code must not import presentation or delivery layers
+  metadata:
+    category: architecture
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Application services should coordinate use cases without coupling to HTTP, CLI, UI, or other delivery mechanisms.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/application/**'
+  patterns:
+  - pattern-either:
+    - pattern: import $IMPORT from "$MODULE"
+    - pattern: import { ... } from "$MODULE"
+  - metavariable-regex:
+      metavariable: $MODULE
+      regex: .*(?:presentation|controller|controllers|view|views|routes|api).*

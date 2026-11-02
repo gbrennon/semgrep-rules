@@ -1,0 +1,20 @@
+rules:
+- id: go-domain-no-infrastructure-imports
+  languages:
+  - go
+  message: Domain packages must not import infrastructure packages
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - go
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Keep domain code independent from infrastructure adapters and frameworks.
+    references:
+    - https://go.dev/doc/modules/layout
+  paths:
+    include:
+    - '**/domain/**'
+  pattern-regex: (?m)^\s*(?:import\s+)?(?:[\w.]+\s+)?"[^"\n]*(?:^|[/._-])infrastructure(?:[/._-]|\")

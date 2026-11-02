@@ -1,0 +1,21 @@
+rules:
+- id: rust-domain-no-application-dependencies
+  languages:
+  - rust
+  message: Domain layer must not depend on the application layer; dependencies point inward only
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Keep domain code independent from application orchestration.
+    references:
+    - https://doc.rust-lang.org/reference/items/use-declarations.html
+  paths:
+    include:
+    - '**/domain/**'
+  patterns:
+  - pattern-regex: (?ms)^\s*(?:pub(?:\([^)]*\))?\s+)?use\b[^;]*\b(?:\w+_)?application\b(?:::|\s+as\b|[,;} ])

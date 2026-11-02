@@ -1,0 +1,18 @@
+rules:
+- id: haskell-predictable-random-seed
+  languages:
+  - generic
+  severity: WARNING
+  message: Do not use a caller-controlled or fixed mkStdGen seed for security-sensitive values; use a cryptographic generator
+  metadata:
+    category: security
+    technology:
+    - haskell
+    confidence: MEDIUM
+    scope: generic-haskell
+    policy: opt-in
+    rationale: System.Random.mkStdGen deterministically derives a generator from its seed and is not a source of unpredictable
+      security tokens.
+    references:
+    - https://hackage.haskell.org/package/random/docs/System-Random.html
+  pattern-regex: \b(?:System\.Random\.)?mkStdGen(?:\s+|\()

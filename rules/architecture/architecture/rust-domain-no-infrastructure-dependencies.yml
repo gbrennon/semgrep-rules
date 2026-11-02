@@ -1,0 +1,21 @@
+rules:
+- id: rust-domain-no-infrastructure-dependencies
+  languages:
+  - rust
+  message: Domain layer must not depend on infrastructure
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Keep domain code independent from infrastructure adapters.
+    references:
+    - https://doc.rust-lang.org/reference/items/use-declarations.html
+  paths:
+    include:
+    - '**/domain/**'
+  patterns:
+  - pattern-regex: (?ms)^\s*(?:pub(?:\([^)]*\))?\s+)?use\b[^;]*\b(?:\w+_)?infrastructure\b(?:::|\s+as\b|[,;} ])

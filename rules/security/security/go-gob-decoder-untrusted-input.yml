@@ -1,0 +1,17 @@
+rules:
+- id: go-gob-decoder-untrusted-input
+  languages:
+  - go
+  message: Do not decode untrusted data directly with encoding/gob
+  severity: WARNING
+  metadata:
+    category: security
+    technology:
+    - go
+    confidence: MEDIUM
+    scope: generic-go
+    policy: opt-in
+    rationale: gob decoding is not a safe substitute for schema validation when the input is attacker-controlled.
+    references:
+    - https://pkg.go.dev/encoding/gob
+  pattern: gob.NewDecoder(...).Decode(...)

@@ -1,0 +1,19 @@
+rules:
+- id: go-explicitly-ignored-error
+  languages:
+  - go
+  message: Do not explicitly discard an error without documenting why it is safe
+  severity: WARNING
+  metadata:
+    category: correctness
+    technology:
+    - go
+    confidence: HIGH
+    scope: generic-go
+    policy: opt-in
+    rationale: Explicitly assigning an error to the blank identifier can hide failures and make recovery impossible.
+    references:
+    - https://go.dev/blog/errors-are-values
+  pattern-either:
+  - pattern: _ = $CALL(...)
+  - pattern: $FIRST, _ = $CALL(...)

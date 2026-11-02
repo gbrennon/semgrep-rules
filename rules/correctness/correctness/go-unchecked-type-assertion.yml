@@ -1,0 +1,17 @@
+rules:
+- id: go-unchecked-type-assertion
+  languages:
+  - go
+  message: Check the boolean result of a type assertion before using the asserted value
+  severity: WARNING
+  metadata:
+    category: correctness
+    technology:
+    - go
+    confidence: MEDIUM
+    scope: generic-go
+    policy: opt-in
+    rationale: A failed single-value assertion panics; use the comma-ok form when the dynamic type is not guaranteed.
+    references:
+    - https://go.dev/ref/spec#Type_assertions
+  pattern: $VALUE.($TYPE)
