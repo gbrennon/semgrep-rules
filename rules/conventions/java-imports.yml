@@ -1,0 +1,15 @@
+rules:
+  - id: java-no-wildcard-imports
+    languages: [java]
+    severity: WARNING
+    message: "Avoid wildcard imports; import the symbols used by this file explicitly"
+    metadata:
+      category: conventions
+      technology: [java]
+      confidence: HIGH
+      scope: generic-java
+      policy: opt-in
+      rationale: "Wildcard imports obscure dependencies, increase name-collision risk, and make code review and static analysis less precise."
+      references:
+        - https://docs.oracle.com/javase/specs/jls/se17/html/jls-7.html#jls-7.5
+    pattern-regex: '^\s*import\s+(?:static\s+)?[A-Za-z_$][A-Za-z0-9_$.]*\.\*\s*;'

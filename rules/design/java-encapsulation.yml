@@ -1,0 +1,30 @@
+rules:
+  - id: java-public-mutable-field
+    languages: [java]
+    severity: WARNING
+    message: "Avoid public mutable fields; preserve invariants behind methods"
+    metadata:
+      category: design
+      technology: [java]
+      confidence: HIGH
+      scope: generic-java
+      policy: opt-in
+      rationale: "Public non-final fields allow callers to change object state without validation or domain behavior. Prefer private state with intent-revealing methods."
+      references:
+        - https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
+    pattern-regex: '(?m)^\s*public\s+(?!static\s+final\b)(?!final\b)[^;=(){}]+\s+[A-Za-z_$][A-Za-z0-9_$]*(?:\s*=\s*[^;]+)?\s*;'
+
+  - id: java-setter-method
+    languages: [java]
+    severity: WARNING
+    message: "Prefer intent-revealing state transitions over generic setter methods"
+    metadata:
+      category: design
+      technology: [java]
+      confidence: HIGH
+      scope: generic-java
+      policy: opt-in
+      rationale: "Generic setters expose representation-level mutation and make it harder to enforce object invariants."
+      references:
+        - https://refactoring.guru/smells/long-method
+    pattern-regex: '(?m)^\s*(?:public\s+|protected\s+|private\s+)?(?:static\s+)?[A-Za-z_$][A-Za-z0-9_$<>?,\[\] ]*\s+set[A-Z][A-Za-z0-9_$]*\s*\('
