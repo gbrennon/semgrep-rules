@@ -1,7 +1,8 @@
 # Library & Package Design Style Guide
 
 Guidance on configuring Semgrep rules to enforce strict encapsulation, clean
-exports, and defensive API boundaries in reusable libraries and SDKs.
+exports, and defensive API boundaries in reusable Python, Rust, and Scala
+libraries and SDKs.
 
 ## Design Principles for Libraries
 
@@ -54,4 +55,10 @@ rules:
   - rules/conventions/rust-module-layout.yml
   - rules/maintainability/rust-control-flow.yml
   - rules/correctness/rust-correctness.yml
+
+  # Scala Rules
+  - rules/design/scala-encapsulation.yml
+  - rules/conventions/scala-imports.yml
+  - rules/maintainability/scala-control-flow.yml
+  - rules/correctness/scala-correctness.yml
 ```

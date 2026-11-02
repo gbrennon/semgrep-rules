@@ -1,7 +1,7 @@
 # Layered Architecture Style Guide
 
 Guidance on configuring Semgrep rules to enforce classic N-Tier and MVC layered
-architectures in Python and Rust.
+architectures in Python, Rust, and Scala.
 
 ## Architectural Principles
 
@@ -53,4 +53,9 @@ rules:
   - rules/design/rust-encapsulation.yml
   - rules/security/rust-security.yml
   - rules/correctness/rust-correctness.yml
+
+  # Scala Rules
+  - rules/architecture/scala-layer-boundaries.yml
+  - rules/security/scala-security.yml
+  - rules/correctness/scala-correctness.yml
 ```
