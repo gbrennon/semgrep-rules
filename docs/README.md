@@ -1,50 +1,94 @@
 # Semgrep Rules Portfolio
 
-A curated collection of production-grade Semgrep rules for **Python**, **Rust**,
-and **Scala**, engineered to enforce clean software design, defensive security,
-runtime correctness, and architectural boundaries.
+This repository is an opinionated portfolio of Semgrep rules for eight
+languages and six quality categories. The rules encode the owner's engineering
+preferences as focused, reviewable policies rather than pretending to be a
+language-neutral standard.
 
-## Overview & Taxonomies
+## Language matrix
 
-The repository organizes rules into fundamental quality categories:
+| Language | Semgrep mode | Coverage |
+|---|---|---|
+| Python | Native | All six categories |
+| Rust | Native | All six categories |
+| Scala | Native | All six categories |
+| Go | Native | All six categories |
+| TypeScript | Native | All six categories |
+| Java | Native | All six categories |
+| Kotlin | Native | All six categories |
+| Haskell | Generic regex fallback | All six categories |
 
-| Category | Languages | Focus | Guide |
-|---|---|---|---|
-| **Security** | Python, Rust, Scala | Injection & memory safety | [Doc](rules/security.md) |
-| **Correctness** | Python, Rust, Scala | Logic bugs & lock safety | [Doc](rules/correctness.md) |
-| **Design** | Python, Rust, Scala | Encapsulation & method caps | [Doc](rules/design.md) |
-| **Architecture** | Python, Rust, Scala | Clean Architecture | [Doc](rules/architecture.md) |
-| **Conventions** | Python, Rust, Scala | Layout & imports | [Doc](rules/conventions.md) |
-| **Maintainability**| Python, Rust, Scala | Complexity | [Doc](rules/maintainability.md) |
+C# is intentionally not included. Haskell uses `generic` matching because the
+installed Semgrep engine does not provide a Haskell parser.
 
-## Architectural Style Guides
+## Taxonomies
 
-Curated packs tailored for specific architecture paradigms:
+- [Security](rules/security.md) — dangerous execution, deserialization,
+  injection, and weak randomness.
+- [Correctness](rules/correctness.md) — partial operations, ignored failures,
+  blocking calls, and language-specific runtime traps.
+- [Design](rules/design.md) — encapsulation, mutation, setters, and interface
+  hygiene.
+- [Architecture](rules/architecture.md) — dependency direction and thin
+  delivery boundaries.
+- [Conventions](rules/conventions.md) — import and module-layout hygiene.
+- [Maintainability](rules/maintainability.md) — nesting and complexity signals.
 
-- **[Clean Architecture Guide](architectural-styles/clean-architecture.md):**
-  Enforces inward dependency rules, domain purity, application use case
-  independence, and thin presentation controllers.
-- **[Layered Architecture Guide](architectural-styles/layered-architecture.md):**
-  Enforces strict 3-tier / N-tier separation, preventing presentation shortcuts
-  directly to database layers.
-- **[Library & Package Design Guide](architectural-styles/library-package-design.md):**
-  Enforces encapsulation, avoids mutable parameter defaults, and eliminates
-  wildcard exports for reusable packages.
+## Repository layout
 
-## Quick-Start Usage
+```text
+rules/<category>/<language>-*.yml
+  Language-specific Semgrep definitions.
 
-### Validating Rules
-Validate all rule definitions across the entire collection:
+docs/rules/*.md
+  Category references, rationale, and remediation examples.
+
+docs/architectural-styles/*.md
+  Profile-oriented rule-selection guidance.
+```
+
+Each rule declares `category`, `technology`, `confidence`, `scope`, `policy`,
+`rationale`, and `references` metadata. Architecture rules are generally
+`conventional-hexagonal` and `opt-in`; they depend on project paths such as
+`domain`, `application`, and `presentation`.
+
+## Validation and usage
+
+Validate all definitions:
+
 ```bash
 semgrep --validate --config rules
 ```
 
-### Running on a Project
-Scan your repository using the shared rule suite:
+Scan a project:
+
 ```bash
 semgrep scan --config /path/to/semgrep-rules/rules --error .
 ```
 
-Scala projects can use the same portfolio command. Architecture rules are
-opt-in conventions and expect paths such as `domain`, `application`, and
-`presentation`; adjust those rules when a project uses different boundaries.
+Scan one language/category pack:
+
+```bash
+semgrep scan \
+  --config /path/to/semgrep-rules/rules/security/go-security.yml \
+  --error .
+```
+
+Run the repository self-scan:
+
+```bash
+semgrep scan --config rules --error --exclude rules .
+```
+
+Use the architecture profiles for curated combinations:
+
+- [Clean Architecture](architectural-styles/clean-architecture.md)
+- [Layered Architecture](architectural-styles/layered-architecture.md)
+- [Library & Package Design](architectural-styles/library-package-design.md)
+
+## Interpreting findings
+
+A finding is a review signal, not proof of a defect. Confirm data flow, project
+conventions, and intended architecture before changing code or promoting an
+opt-in rule to an error policy. Regex-based rules can miss unusual formatting
+and can require project-specific tuning.
