@@ -1,0 +1,21 @@
+rules:
+- id: scala-ports-must-use-inbound-outbound-directories
+  languages:
+  - scala
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - scala
+    confidence: MEDIUM
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Ports should be explicit boundary abstractions, separated by direction and kept free of concrete adapters.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  message: Port declarations should live under application/ports/inbound or application/ports/outbound
+  paths:
+    include:
+    - '**/application/ports/*'
+  pattern-regex: |-
+    (?m)^\s*(?:(?:sealed|abstract|final|private|protected)\s+)*(?:trait|abstract\s+class|class|case\s+class)\s+\w*(?:Port|Gateway|Repository|UseCase)\w*\b
