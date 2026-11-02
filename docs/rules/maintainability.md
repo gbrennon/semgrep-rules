@@ -1,7 +1,17 @@
 # Maintainability Rules Reference
 
-Semgrep maintainability rules focused on reducing cognitive load, preventing
-stateful mutation bugs, and maintaining manageable cyclomatic complexity.
+Opinionated Semgrep maintainability rules focused on reducing cognitive load,
+preventing stateful mutation bugs, and keeping control flow manageable. The
+detailed examples are representative. Language packs are:
+
+- Python: `rules/maintainability/python-function-defaults.yml`
+- Rust: `rules/maintainability/rust-control-flow.yml`
+- Scala: `rules/maintainability/scala-control-flow.yml`
+- Go: `rules/maintainability/go-control-flow.yml`
+- Haskell: `rules/maintainability/haskell-control-flow.yml`
+- TypeScript: `rules/maintainability/typescript-control-flow.yml`
+- Java: `rules/maintainability/java-control-flow.yml`
+- Kotlin: `rules/maintainability/kotlin-control-flow.yml`
 
 ## `python-no-mutable-default-arguments`
 
