@@ -1,0 +1,15 @@
+rules:
+  - id: haskell-deep-conditional-chain
+    languages: [generic]
+    severity: WARNING
+    message: "Conditional nesting exceeds two levels; extract a helper or use a clearer decision structure"
+    metadata:
+      category: maintainability
+      technology: [haskell]
+      confidence: MEDIUM
+      scope: generic-haskell
+      policy: opt-in
+      rationale: "Long else-if chains are a conservative signal that decision logic may be difficult to understand and test in one expression."
+      references:
+        - https://www.haskell.org/onlinereport/haskell2010/haskellch3.html
+    pattern-regex: '(?m)\bif\b[^\n]*\bthen\b[^\n]*\belse\s+if\b[^\n]*\bthen\b[^\n]*\belse\s+if\b'

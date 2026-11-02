@@ -1,0 +1,31 @@
+rules:
+  - id: haskell-avoid-partial-extraction
+    languages: [generic]
+    severity: ERROR
+    message: "Avoid partial extraction from lists or Maybe values; handle the empty case explicitly"
+    metadata:
+      category: correctness
+      technology: [haskell]
+      confidence: HIGH
+      scope: generic-haskell
+      policy: opt-in
+      rationale: "fromJust, head, tail, last, and init throw exceptions on values that do not satisfy their preconditions."
+      references:
+        - https://hackage.haskell.org/package/base/docs/Data-Maybe.html#v:fromJust
+        - https://hackage.haskell.org/package/base/docs/Prelude.html#v:head
+    pattern-regex: '\b(?:fromJust|head|tail|last|init)\s*(?:\(|\$|[A-Za-z_])'
+
+  - id: haskell-ignored-exception-handler
+    languages: [generic]
+    severity: WARNING
+    message: "Do not silently discard exceptions; handle or record the failure deliberately"
+    metadata:
+      category: correctness
+      technology: [haskell]
+      confidence: HIGH
+      scope: generic-haskell
+      policy: opt-in
+      rationale: "A catch or handle handler that accepts any exception and returns unit hides failures and can make incorrect state appear successful."
+      references:
+        - https://hackage.haskell.org/package/base/docs/Control-Exception.html
+    pattern-regex: '\b(?:catch|handle)\s+[^\n]*\\\s*[_A-Za-z][^\n]*->\s*(?:return\s*\(\)|pure\s*\(\)|\(\))'
