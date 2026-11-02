@@ -1,0 +1,15 @@
+rules:
+  - id: java-control-flow-nesting-above-2
+    languages: [java]
+    severity: WARNING
+    message: "Control flow is nested deeper than two levels; use guard clauses or extract a helper"
+    metadata:
+      category: maintainability
+      technology: [java]
+      confidence: MEDIUM
+      scope: generic-java
+      policy: opt-in
+      rationale: "Deep nesting increases cognitive load and makes exceptional paths difficult to review. Extracting cohesive operations or using guard clauses keeps control flow understandable."
+      references:
+        - https://refactoring.guru/smells/long-method
+    pattern-regex: '(?ms)\bif\s*\([^{}]*\)\s*\{(?:(?!\}).)*\bif\s*\([^{}]*\)\s*\{(?:(?!\}).)*\bif\s*\('
