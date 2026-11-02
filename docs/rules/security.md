@@ -169,3 +169,78 @@ let token: MySecretToken = unsafe { std::mem::transmute(random_bytes) };
 // Safe: safe constructors and explicit decoding
 let token = MySecretToken::from_bytes(&random_bytes)?;
 ```
+
+## `scala-runtime-command-execution`
+
+- **Severity:** `ERROR`
+- **Languages:** Scala
+- **Confidence:** `MEDIUM`
+- **File:** `rules/security/scala-security.yml`
+
+### What it Enforces
+Flags direct use of `Runtime.exec` and `ProcessBuilder` so command construction
+and input validation receive an explicit security review.
+
+### Why it Matters
+These APIs cross the operating-system trust boundary. Passing attacker-controlled
+or insufficiently validated command strings can enable command injection.
+
+### Non-Compliant Code
+```scala
+val output = Runtime.getRuntime.exec(userSuppliedCommand)
+```
+
+### Compliant Code
+```scala
+val process = new ProcessBuilder("git", "status").start()
+```
+
+## `scala-insecure-java-deserialization`
+
+- **Severity:** `ERROR`
+- **Languages:** Scala
+- **Confidence:** `HIGH`
+- **File:** `rules/security/scala-security.yml`
+
+### What it Enforces
+Flags calls to `readObject`, the Java native deserialization entry point.
+
+### Why it Matters
+Native Java deserialization can invoke attacker-controlled gadget chains while
+reconstructing objects from untrusted bytes.
+
+### Non-Compliant Code
+```scala
+val value = objectInputStream.readObject()
+```
+
+### Compliant Code
+```scala
+val value = jsonDecoder.decode[Message](trustedSchemaValidatedBytes)
+```
+
+## `scala-predictable-random-for-security`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `MEDIUM`
+- **File:** `rules/security/scala-security.yml`
+
+### What it Enforces
+Flags construction of `java.util.Random`, which is not suitable for secrets
+or security-sensitive tokens.
+
+### Why it Matters
+`java.util.Random` is predictable. Security-sensitive values should come from a
+cryptographically secure generator.
+
+### Non-Compliant Code
+```scala
+val resetToken = new java.util.Random().nextLong().toString
+```
+
+### Compliant Code
+```scala
+val secureRandom = new java.security.SecureRandom()
+val resetToken = secureRandom.nextLong().toString
+```

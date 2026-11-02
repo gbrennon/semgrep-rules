@@ -1,0 +1,50 @@
+rules:
+  - id: scala-runtime-command-execution
+    languages: [scala]
+    severity: ERROR
+    message: "Direct runtime command execution requires strict input validation; avoid passing untrusted strings to the OS"
+    metadata:
+      category: security
+      technology: [scala]
+      confidence: MEDIUM
+      scope: generic-scala
+      policy: opt-in
+      rationale: "Runtime.exec and ProcessBuilder cross an operating-system trust boundary. Building their command from untrusted or insufficiently validated data can cause command injection."
+      references:
+        - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runtime.html#exec(java.lang.String)
+        - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ProcessBuilder.html
+    pattern-either:
+      - pattern: Runtime.getRuntime.exec(...)
+      - pattern: Runtime.getRuntime().exec(...)
+      - pattern: new ProcessBuilder(...)
+
+  - id: scala-insecure-java-deserialization
+    languages: [scala]
+    severity: ERROR
+    message: "Java ObjectInputStream deserialization is unsafe for untrusted data"
+    metadata:
+      category: security
+      technology: [scala]
+      confidence: HIGH
+      scope: generic-scala
+      policy: opt-in
+      rationale: "Java native deserialization can invoke attacker-controlled gadget chains while reconstructing objects. Prefer a safe, schema-validated data format for untrusted input."
+      references:
+        - https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
+    pattern: $STREAM.readObject(...)
+
+  - id: scala-predictable-random-for-security
+    languages: [scala]
+    severity: WARNING
+    message: "Do not use predictable java.util.Random for security-sensitive values; use a cryptographic generator"
+    metadata:
+      category: security
+      technology: [scala]
+      confidence: MEDIUM
+      scope: generic-scala
+      policy: opt-in
+      rationale: "java.util.Random is not designed for secrets, tokens, reset links, or other security-sensitive values because its output can be predicted."
+      references:
+        - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Random.html
+        - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/SecureRandom.html
+    pattern: new java.util.Random(...)
