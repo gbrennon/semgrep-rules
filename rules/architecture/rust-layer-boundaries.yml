@@ -55,3 +55,45 @@ rules:
         - "**/domain/**"
     patterns:
       - pattern-regex: '(?ms)^\s*(?:pub(?:\([^)]*\))?\s+)?use\b[^;]*\b(?:\w+_)?application\b(?:::|\s+as\b|[,;} ])'
+
+  - id: rust-application-no-presentation-dependencies
+    languages: [rust]
+    message: "Application layer must not depend on the presentation layer; dependencies point inward only"
+    severity: ERROR
+    metadata:
+      category: architecture
+      technology: [rust]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Application services coordinate use cases without coupling to UI/CLI delivery mechanisms."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/application/**"
+    patterns:
+      - pattern-regex: '(?ms)^\s*(?:pub(?:\([^)]*\))?\s+)?use\b[^;]*\b(?:\w+_)?presentation\b(?:::|\s+as\b|[,;} ])'
+
+  - id: rust-presentation-must-delegate-no-database
+    languages: [rust]
+    message: "Presentation handlers must not query the database directly; delegate to application use cases"
+    severity: ERROR
+    metadata:
+      category: architecture
+      technology: [rust]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Presentation controllers/handlers should only parse input, invoke application use cases, and format output."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/presentation/**"
+    patterns:
+      - pattern-either:
+          - pattern: sqlx::query(...)
+          - pattern: sqlx::query_as(...)
+          - pattern: $DB.execute(...)
+          - pattern: $POOL.acquire(...)

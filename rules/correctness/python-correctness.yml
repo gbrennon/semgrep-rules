@@ -1,0 +1,59 @@
+rules:
+  - id: python-assert-tuple-always-true
+    languages: [python]
+    severity: ERROR
+    message: "Asserting a 2-tuple is always true in Python; remove enclosing parentheses"
+    metadata:
+      category: correctness
+      technology: [python]
+      confidence: HIGH
+      scope: generic-python
+      policy: opt-in
+      rationale: "Non-empty tuples are always truthy in Python. Use assert expr, message without parentheses enclosing both."
+      references:
+        - https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement
+    pattern: assert ($X, $Y)
+
+  - id: python-identity-vs-equality-literals
+    languages: [python]
+    severity: ERROR
+    message: "Use == or != instead of is / is not when comparing with literals"
+    metadata:
+      category: correctness
+      technology: [python]
+      confidence: HIGH
+      scope: generic-python
+      policy: opt-in
+      rationale: "Identity comparison on literals relies on interpreter interning optimizations and produces subtle bugs."
+      references:
+        - https://docs.python.org/3/reference/expressions.html#is
+    patterns:
+      - pattern-either:
+          - pattern: $X is $LIT
+          - pattern: $X is not $LIT
+      - metavariable-regex:
+          metavariable: $LIT
+          regex: '^(?:"(?:[^"\\]|\\.)*"|\x27(?:[^\x27\\]|\\.)*\x27|\d+)$'
+
+  - id: python-silent-exception-swallow
+    languages: [python]
+    severity: WARNING
+    message: "Silent swallow of Exception/BaseException hides critical runtime failures"
+    metadata:
+      category: correctness
+      technology: [python]
+      confidence: HIGH
+      scope: generic-python
+      policy: opt-in
+      rationale: "Catching Exception and simply passing without logging masks errors and prevents debugging."
+      references:
+        - https://docs.python.org/3/tutorial/errors.html#handling-exceptions
+    patterns:
+      - pattern: |
+          try:
+            ...
+          except $EXC:
+            pass
+      - metavariable-regex:
+          metavariable: $EXC
+          regex: '^(Exception|BaseException)$'
