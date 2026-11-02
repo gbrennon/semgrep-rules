@@ -1,0 +1,55 @@
+rules:
+  - id: typescript-no-public-mutable-fields
+    languages: [typescript]
+    severity: WARNING
+    message: "Avoid public mutable fields; expose behavior that preserves invariants"
+    metadata:
+      category: design
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "Public mutable state lets callers bypass validation and makes object invariants difficult to preserve."
+      references:
+        - https://www.typescriptlang.org/docs/handbook/2/classes.html
+    pattern: |
+      class $CLASS {
+        ...
+        public $FIELD: $TYPE = $VALUE;
+        ...
+      }
+
+  - id: typescript-no-setter-methods
+    languages: [typescript]
+    severity: WARNING
+    message: "Prefer intention-revealing behavior over generic setter methods"
+    metadata:
+      category: design
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "Generic setters expose representation and make it easier to bypass domain invariants."
+      references:
+        - https://www.typescriptlang.org/docs/handbook/2/classes.html
+    patterns:
+      - pattern: $METHOD(...) { ... }
+      - metavariable-regex:
+          metavariable: $METHOD
+          regex: '^set[A-Za-z0-9_]+'
+
+  - id: typescript-avoid-explicit-any
+    languages: [typescript]
+    severity: WARNING
+    message: "Avoid explicit any; use an intentional, narrower type"
+    metadata:
+      category: design
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "Explicit any disables type checking at the boundary where incorrect values are most likely to spread."
+      references:
+        - https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any
+    pattern-regex: |
+      (?m)\b(?:public\s+)?[A-Za-z_$][\w$]*\s*\??\s*:\s*any\b|\)\s*:\s*any\b
