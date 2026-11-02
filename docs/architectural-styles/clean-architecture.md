@@ -1,7 +1,9 @@
 # Clean Architecture Style Guide
 
 A complete guide to enforcing Clean Architecture and Hexagonal (Ports &
-Adapters) boundaries in Python, Rust, and Scala using Semgrep rules.
+Adapters) boundaries using the portfolio's language-specific Semgrep packs.
+The examples below focus on the original Python and Rust rules; the same profile
+is available for Scala, Go, Haskell, TypeScript, Java, and Kotlin.
 
 ## Architectural Principles
 
@@ -94,4 +96,11 @@ rules:
   - rules/design/scala-encapsulation.yml
   - rules/conventions/scala-imports.yml
   - rules/maintainability/scala-control-flow.yml
+
+  # Go, Haskell, TypeScript, Java, and Kotlin
+  - rules/architecture/go-layer-boundaries.yml
+  - rules/architecture/haskell-layer-boundaries.yml
+  - rules/architecture/typescript-layer-boundaries.yml
+  - rules/architecture/java-layer-boundaries.yml
+  - rules/architecture/kotlin-layer-boundaries.yml
 ```
