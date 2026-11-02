@@ -1,0 +1,21 @@
+rules:
+- id: haskell-ports-must-use-inbound-outbound-directories
+  languages:
+  - generic
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - haskell
+    confidence: MEDIUM
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Ports should be explicit boundary abstractions, separated by direction and kept free of concrete adapters.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  message: Port declarations should live under application/ports/inbound or application/ports/outbound
+  paths:
+    include:
+    - '**/application/ports/*'
+  pattern-regex: |-
+    (?mi)^\s*(?:data|newtype|class|type)\s+\w*(?:port|gateway|repository|usecase)\w*\b

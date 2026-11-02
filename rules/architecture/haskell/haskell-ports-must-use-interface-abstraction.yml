@@ -1,0 +1,22 @@
+rules:
+- id: haskell-ports-must-use-interface-abstraction
+  languages:
+  - generic
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - haskell
+    confidence: MEDIUM
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Ports should be explicit boundary abstractions, separated by direction and kept free of concrete adapters.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  message: Ports should use the language interface abstraction instead of a concrete declaration
+  paths:
+    include:
+    - '**/application/ports/inbound/**'
+    - '**/application/ports/outbound/**'
+  pattern-regex: |-
+    (?mi)^\s*(?:data|newtype)\s+\w*(?:port|gateway|repository|usecase)\w*\b
