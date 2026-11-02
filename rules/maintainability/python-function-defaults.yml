@@ -1,0 +1,30 @@
+rules:
+  - id: python-no-mutable-default-arguments
+    languages: [python]
+    message: "Mutable default arguments are not allowed; use None and initialize inside the function"
+    severity: ERROR
+    metadata:
+      category: maintainability
+      technology: [python]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Prevent state from leaking between function calls through shared defaults."
+      references:
+        - https://docs.python.org/3/reference/compound_stmts.html#function-definitions
+    patterns:
+      - pattern-either:
+          - pattern: |
+              def $FUNCTION(..., $PARAM = $DEFAULT, ...):
+                ...
+          - pattern: |
+              async def $FUNCTION(..., $PARAM = $DEFAULT, ...):
+                ...
+      - metavariable-pattern:
+          metavariable: $DEFAULT
+          pattern-either:
+            - pattern: "[]"
+            - pattern: "{}"
+            - pattern: "set()"
+            - pattern: "list()"
+            - pattern: "dict()"
