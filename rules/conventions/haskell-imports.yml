@@ -1,0 +1,30 @@
+rules:
+  - id: haskell-no-implicit-imports
+    languages: [generic]
+    severity: WARNING
+    message: "Avoid implicit whole-module imports; list the symbols used by this module explicitly"
+    metadata:
+      category: conventions
+      technology: [haskell]
+      confidence: HIGH
+      scope: generic-haskell
+      policy: opt-in
+      rationale: "Explicit import lists make dependencies visible, reduce name collisions, and make static analysis more precise."
+      references:
+        - https://downloads.haskell.org/~ghc/latest/docs/users_guide/exts/import_export.html
+    pattern-regex: '^\s*import\s+(?:qualified\s+)?[A-Z][A-Za-z0-9_.]*(?:\s+as\s+[A-Z][A-Za-z0-9_.]*)?\s*$'
+
+  - id: haskell-no-wildcard-imports
+    languages: [generic]
+    severity: WARNING
+    message: "Avoid wildcard imports; import the symbols used by this module explicitly"
+    metadata:
+      category: conventions
+      technology: [haskell]
+      confidence: HIGH
+      scope: generic-haskell
+      policy: opt-in
+      rationale: "Importing a module's entire namespace obscures dependencies and increases name-collision risk."
+      references:
+        - https://downloads.haskell.org/~ghc/latest/docs/users_guide/exts/import_export.html
+    pattern-regex: '^\s*import\s+(?:qualified\s+)?[^\n]*\(\.\.\)\s*$'
