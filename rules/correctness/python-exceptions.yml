@@ -1,0 +1,20 @@
+rules:
+  - id: python-no-bare-except
+    languages: [python]
+    message: "Bare except clauses are not allowed; catch a specific exception type"
+    severity: ERROR
+    metadata:
+      category: correctness
+      technology: [python]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Avoid swallowing system-exiting and unrelated exceptions accidentally."
+      references:
+        - https://docs.python.org/3/tutorial/errors.html#handling-exceptions
+    patterns:
+      - pattern: |
+          try:
+            ...
+          except:
+            ...

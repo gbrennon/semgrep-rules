@@ -1,0 +1,65 @@
+rules:
+  - id: rust-struct-fields-must-not-be-public
+    languages: [rust]
+    message: "Struct fields must not be public; expose behavior instead"
+    severity: ERROR
+    metadata:
+      category: design
+      technology: [rust]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Keep representation private so invariants are enforced by behavior."
+      references:
+        - https://doc.rust-lang.org/reference/visibility-and-privacy.html
+    patterns:
+      - pattern-inside: |
+          struct $STRUCT {
+            ...
+          }
+      - pattern-regex: '(?m)^\s*pub(?:\([^)]*\))?\s+(?!fn\b|const\b|static\b|mod\b|use\b|type\b|enum\b|struct\b|trait\b|async\b|unsafe\b|extern\b)\w+\s*:'
+
+  - id: rust-avoid-public-tuple-struct-fields
+    languages: [rust]
+    message: "Tuple struct fields must not be public; encapsulate the inner value"
+    severity: ERROR
+    metadata:
+      category: design
+      technology: [rust]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Prevent callers from bypassing tuple-struct invariants."
+      references:
+        - https://doc.rust-lang.org/reference/visibility-and-privacy.html
+    patterns:
+      - pattern-regex: '(?m)^\s*(?:pub(?:\([^)]*\))?\s+)?struct\s+\w+\s*\(\s*(?:[^)]*,\s*)*pub(?:\([^)]*\))?\s+'
+
+  - id: rust-no-setters
+    languages: [rust]
+    message: "Setters are not allowed; expose intention-revealing behavior instead"
+    severity: ERROR
+    metadata:
+      category: design
+      technology: [rust]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Prefer domain operations that express intent over generic mutation methods."
+      references:
+        - https://doc.rust-lang.org/reference/items/functions.html
+    patterns:
+      - pattern-either:
+          - pattern: fn $FUNCTION(...);
+          - pattern: |
+              fn $FUNCTION(...) {
+                ...
+              }
+          - pattern: async fn $FUNCTION(...);
+          - pattern: |
+              async fn $FUNCTION(...) {
+                ...
+              }
+      - metavariable-regex:
+          metavariable: $FUNCTION
+          regex: '^set_'
