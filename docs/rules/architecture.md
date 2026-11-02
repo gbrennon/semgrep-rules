@@ -1,8 +1,19 @@
 # Architecture & Boundary Rules Reference
 
-Semgrep architecture rules enforcing Clean Architecture, Hexagonal boundaries,
-and strict dependency direction across Domain, Application, and Presentation
-layers in Python and Rust.
+Opinionated Semgrep architecture rules enforcing Clean Architecture,
+Hexagonal boundaries, and strict dependency direction across Domain, Application,
+and Presentation layers. The detailed examples are representative. Language
+packs are:
+
+- Python: `rules/architecture/python-architecture.yml`
+- Rust: `rules/architecture/rust-layer-boundaries.yml`,
+  `rules/architecture/rust-service-boundaries.yml`
+- Scala: `rules/architecture/scala-layer-boundaries.yml`
+- Go: `rules/architecture/go-layer-boundaries.yml`
+- Haskell: `rules/architecture/haskell-layer-boundaries.yml`
+- TypeScript: `rules/architecture/typescript-layer-boundaries.yml`
+- Java: `rules/architecture/java-layer-boundaries.yml`
+- Kotlin: `rules/architecture/kotlin-layer-boundaries.yml`
 
 ## `python-domain-no-framework-imports`
 
