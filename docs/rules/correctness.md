@@ -1,7 +1,18 @@
 # Correctness Rules Reference
 
-Semgrep correctness rules designed to detect runtime bugs, logical traps, and
-subtle language pitfalls in Python and Rust.
+Opinionated Semgrep correctness rules for runtime bugs, logical traps, partial
+operations, ignored failures, blocking calls, and language-specific pitfalls.
+The detailed examples are representative. Language packs are:
+
+- Python: `rules/correctness/python-correctness.yml`,
+  `rules/correctness/python-exceptions.yml`
+- Rust: `rules/correctness/rust-correctness.yml`
+- Scala: `rules/correctness/scala-correctness.yml`
+- Go: `rules/correctness/go-correctness.yml`
+- Haskell: `rules/correctness/haskell-correctness.yml`
+- TypeScript: `rules/correctness/typescript-correctness.yml`
+- Java: `rules/correctness/java-correctness.yml`
+- Kotlin: `rules/correctness/kotlin-correctness.yml`
 
 ## `python-no-bare-except`
 
