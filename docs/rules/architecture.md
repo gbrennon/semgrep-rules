@@ -201,3 +201,62 @@ service coupling creates circular dependencies and tangled graphs.
 Prevents application services from depending directly on sibling application
 services. Cross-service coordination must occur through domain events or
 top-level composition roots.
+
+## Scala Layer Boundary Rules
+
+Scala architecture rules are path-scoped conventions for projects organized
+around `domain`, `application`, and delivery adapter packages. They are opt-in:
+rename the paths or adjust the patterns when a project uses a different
+architecture.
+
+### `scala-domain-no-outward-layer-imports`
+
+- **Severity:** `ERROR`
+- **Languages:** Scala
+- **Scope:** `**/domain/**`
+- **File:** `rules/architecture/scala-layer-boundaries.yml`
+
+Prevents domain code from importing application, presentation, or infrastructure
+packages.
+
+```scala
+// In domain/order/Order.scala: non-compliant
+import com.example.infrastructure.database.OrderRow
+```
+
+### `scala-application-no-presentation-imports`
+
+- **Severity:** `ERROR`
+- **Languages:** Scala
+- **Scope:** `**/application/**`
+- **File:** `rules/architecture/scala-layer-boundaries.yml`
+
+Prevents application services from importing controllers, routes, views, or API
+presentation packages.
+
+### `scala-application-no-infrastructure-imports`
+
+- **Severity:** `ERROR`
+- **Languages:** Scala
+- **Scope:** `**/application/**`
+- **File:** `rules/architecture/scala-layer-boundaries.yml`
+
+Keeps application orchestration dependent on ports rather than concrete adapters.
+
+### `scala-presentation-no-direct-database-access`
+
+- **Severity:** `ERROR`
+- **Languages:** Scala
+- **Scope:** `**/presentation/**`, `**/controllers/**`, `**/routes/**`, `**/api/**`
+- **File:** `rules/architecture/scala-layer-boundaries.yml`
+
+Flags common direct database calls from delivery code. Presentation code should
+invoke an application use case and serialize its result instead.
+
+```scala
+// In presentation/order/OrderController.scala: non-compliant
+val order = database.run(orderQuery.result)
+
+// Compliant
+val order = getOrder.execute(orderId)
+```
