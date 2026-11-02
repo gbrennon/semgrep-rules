@@ -1,0 +1,32 @@
+rules:
+  - id: typescript-no-non-null-assertion
+    languages: [typescript]
+    severity: WARNING
+    message: "Avoid non-null assertions; prove the value is present before use"
+    metadata:
+      category: correctness
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "The non-null assertion operator suppresses TypeScript checks and can turn a valid type into a runtime exception."
+      references:
+        - https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#non-null-assertion-operator-postfix-
+    pattern: $VALUE!
+
+  - id: typescript-empty-catch
+    languages: [typescript]
+    severity: WARNING
+    message: "Do not silently swallow caught errors"
+    metadata:
+      category: correctness
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "An empty catch block hides failures and makes recovery and diagnosis impossible."
+      references:
+        - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+    pattern-either:
+      - pattern: catch ($ERROR) { }
+      - pattern: catch { }
