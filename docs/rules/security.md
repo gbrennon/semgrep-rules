@@ -1,8 +1,20 @@
 # Security Rules Reference
 
-Defensive Semgrep security rules designed to prevent command injection, unsafe
-deserialization, arbitrary code execution, and dangerous memory operations in
-Python and Rust applications.
+Opinionated Semgrep security rules for preventing command injection, unsafe
+deserialization, arbitrary code execution, weak randomness, and dangerous APIs.
+The examples below are representative; the complete language matrix is:
+
+- `rules/security/python-security.yml`
+- `rules/security/rust-security.yml`
+- `rules/security/scala-security.yml`
+- `rules/security/go-security.yml`
+- `rules/security/haskell-security.yml`
+- `rules/security/typescript-security.yml`
+- `rules/security/java-security.yml`
+- `rules/security/kotlin-security.yml`
+
+Haskell uses generic regex matching because the installed Semgrep engine lacks a
+Haskell parser.
 
 ## `python-no-eval-exec`
 
