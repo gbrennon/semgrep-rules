@@ -1,0 +1,59 @@
+rules:
+  - id: csharp-no-shell-process-start
+    languages: [csharp]
+    severity: ERROR
+    message: "Do not start processes through shell-parsed commands"
+    metadata:
+      category: security
+      technology: [csharp]
+      confidence: HIGH
+      scope: generic-csharp
+      policy: opt-in
+      rationale: "Process.Start can execute attacker-controlled command strings, especially when shell interpretation is enabled."
+      references:
+        - https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.start
+    pattern-either:
+      - pattern: Process.Start(...)
+      - pattern: System.Diagnostics.Process.Start(...)
+      - pattern: new ProcessStartInfo { UseShellExecute = true, ... }
+      - pattern: new System.Diagnostics.ProcessStartInfo { UseShellExecute = true, ... }
+
+  - id: csharp-no-binaryformatter
+    languages: [csharp]
+    severity: ERROR
+    message: "Do not use BinaryFormatter for serialization or deserialization"
+    metadata:
+      category: security
+      technology: [csharp]
+      confidence: HIGH
+      scope: generic-csharp
+      policy: opt-in
+      rationale: "BinaryFormatter is unsafe with untrusted data and is obsolete; use a safer, explicitly defined serializer."
+      references:
+        - https://learn.microsoft.com/en-us/dotnet/standard/serialization/binaryformatter-security-guide
+    pattern-either:
+      - pattern: new BinaryFormatter(...)
+      - pattern: new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter(...)
+      - pattern: $FORMATTER.Deserialize(...)
+      - pattern: $FORMATTER.Serialize(...)
+
+  - id: csharp-no-weak-hash-algorithms
+    languages: [csharp]
+    severity: WARNING
+    message: "Do not use MD5 or SHA1 for security-sensitive hashing"
+    metadata:
+      category: security
+      technology: [csharp]
+      confidence: HIGH
+      scope: generic-csharp
+      policy: opt-in
+      rationale: "MD5 and SHA1 are collision-prone and should not protect passwords, signatures, or other security-sensitive values."
+      references:
+        - https://learn.microsoft.com/en-us/dotnet/standard/security/cryptography-model
+    pattern-either:
+      - pattern: MD5.Create(...)
+      - pattern: SHA1.Create(...)
+      - pattern: System.Security.Cryptography.MD5.Create(...)
+      - pattern: System.Security.Cryptography.SHA1.Create(...)
+      - pattern: new MD5CryptoServiceProvider(...)
+      - pattern: new SHA1CryptoServiceProvider(...)
