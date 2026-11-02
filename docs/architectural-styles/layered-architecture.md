@@ -1,7 +1,8 @@
 # Layered Architecture Style Guide
 
 Guidance on configuring Semgrep rules to enforce classic N-Tier and MVC layered
-architectures in Python, Rust, and Scala.
+architectures across the portfolio's supported language packs. The examples are
+representative rather than exhaustive.
 
 ## Architectural Principles
 
@@ -58,4 +59,11 @@ rules:
   - rules/architecture/scala-layer-boundaries.yml
   - rules/security/scala-security.yml
   - rules/correctness/scala-correctness.yml
+
+  # Go, Haskell, TypeScript, Java, and Kotlin
+  - rules/architecture/go-layer-boundaries.yml
+  - rules/architecture/haskell-layer-boundaries.yml
+  - rules/architecture/typescript-layer-boundaries.yml
+  - rules/architecture/java-layer-boundaries.yml
+  - rules/architecture/kotlin-layer-boundaries.yml
 ```
