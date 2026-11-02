@@ -1,7 +1,17 @@
 # Conventions Rules Reference
 
-Semgrep convention rules standardizing module layouts, import hygiene, and
-source structure in Python and Rust.
+Opinionated Semgrep convention rules standardizing module layouts, import
+hygiene, and source structure. The detailed examples are representative.
+Language packs are:
+
+- Python: `rules/conventions/python-imports.yml`
+- Rust: `rules/conventions/rust-module-layout.yml`
+- Scala: `rules/conventions/scala-imports.yml`
+- Go: `rules/conventions/go-imports.yml`
+- Haskell: `rules/conventions/haskell-imports.yml`
+- TypeScript: `rules/conventions/typescript-imports.yml`
+- Java: `rules/conventions/java-imports.yml`
+- Kotlin: `rules/conventions/kotlin-imports.yml`
 
 ## `python-no-wildcard-imports`
 
