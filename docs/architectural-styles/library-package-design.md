@@ -1,8 +1,9 @@
 # Library & Package Design Style Guide
 
 Guidance on configuring Semgrep rules to enforce strict encapsulation, clean
-exports, and defensive API boundaries in reusable Python, Rust, and Scala
-libraries and SDKs.
+exports, and defensive API boundaries in reusable libraries and SDKs. Examples
+below are representative; language-specific packs cover Python, Rust, Scala, Go,
+Haskell, TypeScript, Java, and Kotlin.
 
 ## Design Principles for Libraries
 
@@ -61,4 +62,11 @@ rules:
   - rules/conventions/scala-imports.yml
   - rules/maintainability/scala-control-flow.yml
   - rules/correctness/scala-correctness.yml
+
+  # Go, Haskell, TypeScript, Java, and Kotlin
+  - rules/design/go-encapsulation.yml
+  - rules/design/haskell-encapsulation.yml
+  - rules/design/typescript-encapsulation.yml
+  - rules/design/java-encapsulation.yml
+  - rules/design/kotlin-encapsulation.yml
 ```
