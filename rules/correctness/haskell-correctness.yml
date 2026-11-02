@@ -13,7 +13,7 @@ rules:
       references:
         - https://hackage.haskell.org/package/base/docs/Data-Maybe.html#v:fromJust
         - https://hackage.haskell.org/package/base/docs/Prelude.html#v:head
-    pattern-regex: '\b(?:fromJust|head|tail|last|init)\s*(?:\(|\$|[A-Za-z_])'
+    pattern-regex: '\b(?:fromJust|head|tail|last|init)(?:\s*\(|\s+\$?\s*[A-Za-z_(\[])'
 
   - id: haskell-ignored-exception-handler
     languages: [generic]
