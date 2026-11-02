@@ -1,0 +1,98 @@
+rules:
+  - id: typescript-domain-no-outward-layer-imports
+    languages: [typescript]
+    severity: ERROR
+    message: "Domain code must not import application, presentation, or infrastructure layers"
+    metadata:
+      category: architecture
+      technology: [typescript]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Domain code should remain independent from delivery, orchestration, and technical adapter details."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/domain/**"
+    patterns:
+      - pattern-either:
+          - pattern: import $IMPORT from "$MODULE"
+          - pattern: import { ... } from "$MODULE"
+      - metavariable-regex:
+          metavariable: $MODULE
+          regex: '.*(?:application|presentation|infrastructure|infra|adapter|adapters).*'
+
+  - id: typescript-application-no-presentation-imports
+    languages: [typescript]
+    severity: ERROR
+    message: "Application code must not import presentation or delivery layers"
+    metadata:
+      category: architecture
+      technology: [typescript]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Application services should coordinate use cases without coupling to HTTP, CLI, UI, or other delivery mechanisms."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/application/**"
+    patterns:
+      - pattern-either:
+          - pattern: import $IMPORT from "$MODULE"
+          - pattern: import { ... } from "$MODULE"
+      - metavariable-regex:
+          metavariable: $MODULE
+          regex: '.*(?:presentation|controller|controllers|view|views|routes|api).*'
+
+  - id: typescript-presentation-no-direct-database-access
+    languages: [typescript]
+    severity: ERROR
+    message: "Presentation code must delegate to application use cases instead of querying the database directly"
+    metadata:
+      category: architecture
+      technology: [typescript]
+      confidence: MEDIUM
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Delivery adapters should invoke application ports rather than bypassing application policies with direct database access."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/presentation/**"
+        - "**/controllers/**"
+        - "**/routes/**"
+        - "**/api/**"
+    pattern-either:
+      - pattern: $DB.query(...)
+      - pattern: $DB.execute(...)
+      - pattern: $DB.raw(...)
+      - pattern: prisma.$queryRaw(...)
+      - pattern: prisma.$executeRaw(...)
+
+  - id: typescript-application-no-infrastructure-imports
+    languages: [typescript]
+    severity: ERROR
+    message: "Application code must depend on ports, not infrastructure adapters"
+    metadata:
+      category: architecture
+      technology: [typescript]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Concrete database, filesystem, messaging, and network adapters belong outside application orchestration."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/application/**"
+    patterns:
+      - pattern-either:
+          - pattern: import $IMPORT from "$MODULE"
+          - pattern: import { ... } from "$MODULE"
+      - metavariable-regex:
+          metavariable: $MODULE
+          regex: '.*(?:infrastructure|infra|adapter|adapters).*'
