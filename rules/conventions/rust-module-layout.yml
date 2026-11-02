@@ -1,0 +1,16 @@
+rules:
+  - id: rust-no-inline-modules
+    languages: [rust]
+    message: "Inline modules are not allowed; use a separate module file (test modules excepted)"
+    severity: ERROR
+    metadata:
+      category: conventions
+      technology: [rust]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Keep modules in separate files so the source tree mirrors the module layout."
+      references:
+        - https://doc.rust-lang.org/reference/items/modules.html
+    patterns:
+      - pattern-regex: '(?m)^\s*(?:pub(?:\([^)]*\))?\s+)?mod\s+(?!\w*tests?\b)\w+\s*\{'
