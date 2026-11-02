@@ -1,0 +1,22 @@
+rules:
+- id: scala-runtime-command-execution
+  languages:
+  - scala
+  severity: ERROR
+  message: Direct runtime command execution requires strict input validation; avoid passing untrusted strings to the OS
+  metadata:
+    category: security
+    technology:
+    - scala
+    confidence: MEDIUM
+    scope: generic-scala
+    policy: opt-in
+    rationale: Runtime.exec and ProcessBuilder cross an operating-system trust boundary. Building their command from untrusted
+      or insufficiently validated data can cause command injection.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runtime.html#exec(java.lang.String)
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ProcessBuilder.html
+  pattern-either:
+  - pattern: Runtime.getRuntime.exec(...)
+  - pattern: Runtime.getRuntime().exec(...)
+  - pattern: new ProcessBuilder(...)

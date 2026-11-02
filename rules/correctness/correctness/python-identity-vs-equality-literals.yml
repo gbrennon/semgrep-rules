@@ -1,0 +1,23 @@
+rules:
+- id: python-identity-vs-equality-literals
+  languages:
+  - python
+  severity: ERROR
+  message: Use == or != instead of is / is not when comparing with literals
+  metadata:
+    category: correctness
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Identity comparison on literals relies on interpreter interning optimizations and produces subtle bugs.
+    references:
+    - https://docs.python.org/3/reference/expressions.html#is
+  patterns:
+  - pattern-either:
+    - pattern: $X is $LIT
+    - pattern: $X is not $LIT
+  - metavariable-regex:
+      metavariable: $LIT
+      regex: ^(?:"(?:[^"\\]|\\.)*"|\x27(?:[^\x27\\]|\\.)*\x27|\d+)$

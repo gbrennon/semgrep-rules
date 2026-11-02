@@ -1,0 +1,19 @@
+rules:
+- id: scala-predictable-random-for-security
+  languages:
+  - scala
+  severity: WARNING
+  message: Do not use predictable java.util.Random for security-sensitive values; use a cryptographic generator
+  metadata:
+    category: security
+    technology:
+    - scala
+    confidence: MEDIUM
+    scope: generic-scala
+    policy: opt-in
+    rationale: java.util.Random is not designed for secrets, tokens, reset links, or other security-sensitive values because
+      its output can be predicted.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Random.html
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/security/SecureRandom.html
+  pattern: new java.util.Random(...)

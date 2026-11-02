@@ -1,0 +1,17 @@
+rules:
+- id: python-assert-tuple-always-true
+  languages:
+  - python
+  severity: ERROR
+  message: Asserting a 2-tuple is always true in Python; remove enclosing parentheses
+  metadata:
+    category: correctness
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Non-empty tuples are always truthy in Python. Use assert expr, message without parentheses enclosing both.
+    references:
+    - https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement
+  pattern: assert ($X, $Y)

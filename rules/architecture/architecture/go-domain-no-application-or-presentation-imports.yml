@@ -1,0 +1,20 @@
+rules:
+- id: go-domain-no-application-or-presentation-imports
+  languages:
+  - go
+  message: Domain packages must not import application or presentation packages
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - go
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Dependencies should point inward; domain logic should not depend on orchestration or delivery layers.
+    references:
+    - https://go.dev/doc/modules/layout
+  paths:
+    include:
+    - '**/domain/**'
+  pattern-regex: (?m)^\s*(?:import\s+)?(?:[\w.]+\s+)?"[^"\n]*(?:^|[/._-])(?:application|presentation)(?:[/._-]|\")

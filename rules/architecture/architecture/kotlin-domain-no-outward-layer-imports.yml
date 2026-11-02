@@ -1,0 +1,20 @@
+rules:
+- id: kotlin-domain-no-outward-layer-imports
+  languages:
+  - kotlin
+  severity: ERROR
+  message: Domain code must not import application, presentation, or infrastructure layers
+  metadata:
+    category: architecture
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: The domain model should remain independent from delivery, orchestration, and technical adapter details.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/domain/**'
+  pattern-regex: ^\s*import\s+[^\n]*(?:application|presentation|infrastructure|infra|adapter|adapters)(?:[./]|\s|$)

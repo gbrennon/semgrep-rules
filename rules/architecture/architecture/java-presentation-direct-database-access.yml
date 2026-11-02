@@ -1,0 +1,29 @@
+rules:
+- id: java-presentation-direct-database-access
+  languages:
+  - java
+  severity: ERROR
+  message: Presentation layer must not access the database directly; delegate to an application use case
+  metadata:
+    category: architecture
+    technology:
+    - java
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Controllers and presentation adapters should translate requests and responses, not contain persistence concerns
+      or database queries.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/presentation/**/*.java'
+    - '**/controller/**/*.java'
+    - '**/controllers/**/*.java'
+    - '**/web/**/*.java'
+  pattern-either:
+  - pattern: DriverManager.getConnection(...)
+  - pattern: $CONNECTION.prepareStatement(...)
+  - pattern: $CONNECTION.createStatement(...)
+  - pattern: $ENTITY_MANAGER.createQuery(...)
+  - pattern: $ENTITY_MANAGER.createNativeQuery(...)

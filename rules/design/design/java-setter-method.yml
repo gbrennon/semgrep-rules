@@ -1,0 +1,17 @@
+rules:
+- id: java-setter-method
+  languages:
+  - java
+  severity: WARNING
+  message: Prefer intent-revealing state transitions over generic setter methods
+  metadata:
+    category: design
+    technology:
+    - java
+    confidence: HIGH
+    scope: generic-java
+    policy: opt-in
+    rationale: Generic setters expose representation-level mutation and make it harder to enforce object invariants.
+    references:
+    - https://refactoring.guru/smells/long-method
+  pattern-regex: (?m)^\s*(?:public\s+|protected\s+|private\s+)?(?:static\s+)?[A-Za-z_$][A-Za-z0-9_$<>?,\[\] ]*\s+set[A-Z][A-Za-z0-9_$]*\s*\(

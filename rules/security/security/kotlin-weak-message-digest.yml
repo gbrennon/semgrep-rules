@@ -1,0 +1,25 @@
+rules:
+- id: kotlin-weak-message-digest
+  languages:
+  - kotlin
+  severity: WARNING
+  message: Do not use MD5 or SHA-1 for security-sensitive hashing; use a modern collision-resistant algorithm
+  metadata:
+    category: security
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: generic-kotlin
+    policy: opt-in
+    rationale: MD5 and SHA-1 have practical collision weaknesses and should not protect passwords, signatures, or other security-sensitive
+      values.
+    references:
+    - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+    - https://csrc.nist.gov/projects/hash-functions
+  pattern-either:
+  - pattern: MessageDigest.getInstance("MD5")
+  - pattern: MessageDigest.getInstance("SHA-1")
+  - pattern: MessageDigest.getInstance("SHA1")
+  - pattern: java.security.MessageDigest.getInstance("MD5")
+  - pattern: java.security.MessageDigest.getInstance("SHA-1")
+  - pattern: java.security.MessageDigest.getInstance("SHA1")

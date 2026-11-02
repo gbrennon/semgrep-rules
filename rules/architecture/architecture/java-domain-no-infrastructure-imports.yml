@@ -1,0 +1,21 @@
+rules:
+- id: java-domain-no-infrastructure-imports
+  languages:
+  - java
+  severity: ERROR
+  message: Domain layer must not import presentation, framework, or persistence packages
+  metadata:
+    category: architecture
+    technology:
+    - java
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: The domain should remain independent of delivery mechanisms, frameworks, and persistence details so business
+      rules can be tested and reused in isolation.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/domain/**/*.java'
+  pattern-regex: ^\s*import\s+(?:[^;]*(?:springframework|jakarta\.persistence|javax\.persistence|hibernate|jdbc|servlet|controller|presentation|web|rest)[^;]*)\s*;

@@ -1,0 +1,21 @@
+rules:
+- id: java-runtime-command-execution
+  languages:
+  - java
+  severity: ERROR
+  message: Direct Runtime.exec or ProcessBuilder use requires strict input validation; avoid shell command injection
+  metadata:
+    category: security
+    technology:
+    - java
+    confidence: MEDIUM
+    scope: generic-java
+    policy: opt-in
+    rationale: Runtime.exec and ProcessBuilder cross an operating-system trust boundary. Building commands from untrusted
+      or insufficiently validated data can enable command injection, especially when a shell is invoked.
+    references:
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runtime.html#exec(java.lang.String)
+    - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ProcessBuilder.html
+  pattern-either:
+  - pattern: Runtime.getRuntime().exec(...)
+  - pattern: new ProcessBuilder(...)

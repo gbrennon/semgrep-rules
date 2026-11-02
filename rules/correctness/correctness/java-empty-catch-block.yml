@@ -1,0 +1,18 @@
+rules:
+- id: java-empty-catch-block
+  languages:
+  - java
+  severity: WARNING
+  message: Do not silently swallow exceptions in an empty catch block
+  metadata:
+    category: correctness
+    technology:
+    - java
+    confidence: HIGH
+    scope: generic-java
+    policy: opt-in
+    rationale: An empty catch block hides failures and leaves callers without a clear recovery path. Handle, propagate, or
+      document intentionally ignored exceptions.
+    references:
+    - https://docs.oracle.com/javase/tutorial/essential/exceptions/catch.html
+  pattern-regex: (?m)catch\s*\([^)]*\)\s*\{\s*\}

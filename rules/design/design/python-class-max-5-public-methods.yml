@@ -1,0 +1,18 @@
+rules:
+- id: python-class-max-5-public-methods
+  languages:
+  - python
+  severity: WARNING
+  message: Class $CLASS defines more than 5 public methods; decompose to preserve single responsibility
+  metadata:
+    category: design
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Classes with broad public interfaces tend to accumulate disparate responsibilities. Refactor into smaller collaborating
+      classes.
+    references:
+    - https://en.wikipedia.org/wiki/Single-responsibility_principle
+  pattern-regex: (?ms)^\s*class\b(?:(?!^\s*class\b).)*?(?:^\s+def\s+[a-zA-Z][a-zA-Z0-9_]*\s*\(.*?){6,}

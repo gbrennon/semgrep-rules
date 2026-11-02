@@ -1,0 +1,19 @@
+rules:
+- id: go-exported-struct-field
+  languages:
+  - go
+  message: Keep struct fields private so invariants can be enforced through behavior
+  severity: WARNING
+  metadata:
+    category: design
+    technology:
+    - go
+    confidence: MEDIUM
+    scope: generic-go
+    policy: opt-in
+    rationale: Exported mutable fields allow callers to bypass validation and make state changes difficult to control.
+    references:
+    - https://go.dev/ref/spec#Exported_identifiers
+  patterns:
+  - pattern-inside: "type $TYPE struct {\n  ...\n}\n"
+  - pattern-regex: (?m)^\s*[A-Z][A-Za-z0-9_]*\s+[^`\n]+(?:`[^`]*`)?\s*$

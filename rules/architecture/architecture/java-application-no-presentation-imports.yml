@@ -1,0 +1,21 @@
+rules:
+- id: java-application-no-presentation-imports
+  languages:
+  - java
+  severity: ERROR
+  message: Application layer must not depend on presentation or controller packages
+  metadata:
+    category: architecture
+    technology:
+    - java
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Application services coordinate use cases and ports; dependencies on controllers or web presentation details
+      reverse the intended dependency direction.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/application/**/*.java'
+  pattern-regex: ^\s*import\s+(?:[^;]*(?:controller|controllers|presentation|presenter|web|rest|views|servlet)[^;]*)\s*;

@@ -1,0 +1,22 @@
+rules:
+- id: rust-domain-service-no-sibling-service-dependencies
+  languages:
+  - rust
+  message: A domain service must not depend on another domain service; keep shared implementation private to one service (a
+    submodule) or model it as a value object the service uses
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Prevent domain services from coupling through their service namespace.
+    references:
+    - https://doc.rust-lang.org/reference/items/use-declarations.html
+  paths:
+    include:
+    - '**/domain/**/services/**'
+  patterns:
+  - pattern-regex: (?ms)^\s*(?:pub(?:\([^)]*\))?\s+)?use\b[^;]*\bservices\b(?:::|\s+as\b|[,;} ])

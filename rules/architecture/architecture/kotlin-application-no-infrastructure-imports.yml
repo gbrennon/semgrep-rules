@@ -1,0 +1,21 @@
+rules:
+- id: kotlin-application-no-infrastructure-imports
+  languages:
+  - kotlin
+  severity: ERROR
+  message: Application code must depend on ports, not infrastructure adapters
+  metadata:
+    category: architecture
+    technology:
+    - kotlin
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Concrete database, filesystem, messaging, and network adapters belong outside application orchestration and
+      should be supplied through ports.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/application/**'
+  pattern-regex: ^\s*import\s+[^\n]*(?:infrastructure|infra|adapter|adapters)(?:[./]|\s|$)

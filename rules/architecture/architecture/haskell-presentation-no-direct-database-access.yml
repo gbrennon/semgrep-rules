@@ -1,0 +1,24 @@
+rules:
+- id: haskell-presentation-no-direct-database-access
+  languages:
+  - generic
+  severity: ERROR
+  message: Presentation code must delegate to application use cases instead of querying the database directly
+  metadata:
+    category: architecture
+    technology:
+    - haskell
+    confidence: MEDIUM
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Delivery adapters should parse input, invoke application ports, and serialize output rather than bypassing
+      application policies with direct database calls.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/presentation/**'
+    - '**/controllers/**'
+    - '**/routes/**'
+    - '**/api/**'
+  pattern-regex: \b(?:runSql(?:Pool)?|runDB|executeSql|rawSql|querySql|Database\.SQL\.[A-Za-z0-9_.]+)\s*(?:\(|\$)

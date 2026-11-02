@@ -1,0 +1,25 @@
+rules:
+- id: rust-no-setters
+  languages:
+  - rust
+  message: Setters are not allowed; expose intention-revealing behavior instead
+  severity: ERROR
+  metadata:
+    category: design
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Prefer domain operations that express intent over generic mutation methods.
+    references:
+    - https://doc.rust-lang.org/reference/items/functions.html
+  patterns:
+  - pattern-either:
+    - pattern: fn $FUNCTION(...);
+    - pattern: "fn $FUNCTION(...) {\n  ...\n}\n"
+    - pattern: async fn $FUNCTION(...);
+    - pattern: "async fn $FUNCTION(...) {\n  ...\n}\n"
+  - metavariable-regex:
+      metavariable: $FUNCTION
+      regex: ^set_

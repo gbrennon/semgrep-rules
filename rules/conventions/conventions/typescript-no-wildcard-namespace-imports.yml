@@ -1,0 +1,17 @@
+rules:
+- id: typescript-no-wildcard-namespace-imports
+  languages:
+  - typescript
+  severity: WARNING
+  message: Avoid wildcard namespace imports; import only the symbols used by this file
+  metadata:
+    category: conventions
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: Namespace imports obscure dependencies and make name collisions and unused dependencies harder to spot.
+    references:
+    - https://www.typescriptlang.org/docs/handbook/2/modules.html
+  pattern: import * as $NAMESPACE from $MODULE

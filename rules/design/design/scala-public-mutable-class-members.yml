@@ -1,0 +1,18 @@
+rules:
+- id: scala-public-mutable-class-members
+  languages:
+  - scala
+  severity: WARNING
+  message: Avoid public mutable class members; preserve invariants behind intent-revealing methods
+  metadata:
+    category: design
+    technology:
+    - scala
+    confidence: MEDIUM
+    scope: generic-scala
+    policy: opt-in
+    rationale: Public vars allow callers to change state without validation or domain behavior. Prefer private state with
+      methods that enforce invariants.
+    references:
+    - https://docs.scala-lang.org/scala3/book/other-new-features/fields.html
+  pattern-regex: (?ms)^\s*(?:final\s+|sealed\s+|abstract\s+)?class\s+[A-Za-z][A-Za-z0-9_]*(?:\s+extends[^\{]+)?\s*\{(?:(?!^\s*\}).)*?^\s*var\s+[A-Za-z][A-Za-z0-9_]*(?:\s*:\s*[^=\n]+)?\s*=

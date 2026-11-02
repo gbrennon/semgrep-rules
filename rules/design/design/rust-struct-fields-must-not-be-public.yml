@@ -1,0 +1,19 @@
+rules:
+- id: rust-struct-fields-must-not-be-public
+  languages:
+  - rust
+  message: Struct fields must not be public; expose behavior instead
+  severity: ERROR
+  metadata:
+    category: design
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Keep representation private so invariants are enforced by behavior.
+    references:
+    - https://doc.rust-lang.org/reference/visibility-and-privacy.html
+  patterns:
+  - pattern-inside: "struct $STRUCT {\n  ...\n}\n"
+  - pattern-regex: '(?m)^\s*pub(?:\([^)]*\))?\s+(?!fn\b|const\b|static\b|mod\b|use\b|type\b|enum\b|struct\b|trait\b|async\b|unsafe\b|extern\b)\w+\s*:'

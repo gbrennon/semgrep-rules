@@ -1,0 +1,25 @@
+rules:
+- id: rust-presentation-must-delegate-no-database
+  languages:
+  - rust
+  message: Presentation handlers must not query the database directly; delegate to application use cases
+  severity: ERROR
+  metadata:
+    category: architecture
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Presentation controllers/handlers should only parse input, invoke application use cases, and format output.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/presentation/**'
+  patterns:
+  - pattern-either:
+    - pattern: sqlx::query(...)
+    - pattern: sqlx::query_as(...)
+    - pattern: $DB.execute(...)
+    - pattern: $POOL.acquire(...)

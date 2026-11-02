@@ -1,0 +1,23 @@
+rules:
+- id: rust-no-sleep-in-async-block
+  languages:
+  - rust
+  severity: ERROR
+  message: std::thread::sleep blocks the async worker thread; use tokio::time::sleep instead
+  metadata:
+    category: correctness
+    technology:
+    - rust
+    confidence: HIGH
+    scope: generic-rust
+    policy: opt-in
+    rationale: Blocking an OS worker thread halts the async event loop for all tasks scheduled on that worker.
+    references:
+    - https://docs.rs/tokio/latest/tokio/time/fn.sleep.html
+  patterns:
+  - pattern-either:
+    - pattern-inside: "async fn $FN(...) {\n  ...\n}\n"
+    - pattern-inside: "async fn $FN(...) -> $RET {\n  ...\n}\n"
+    - pattern-inside: "async {\n  ...\n}\n"
+    - pattern-inside: "async move {\n  ...\n}\n"
+  - pattern: std::thread::sleep(...)

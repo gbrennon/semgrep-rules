@@ -1,0 +1,28 @@
+rules:
+- id: python-domain-no-framework-imports
+  languages:
+  - python
+  severity: ERROR
+  message: Domain layer must not import web frameworks, ORMs, or network delivery packages
+  metadata:
+    category: architecture
+    technology:
+    - python
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Clean Architecture requires the business domain to remain pure and completely decoupled from technical frameworks.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/domain/**'
+  patterns:
+  - pattern-either:
+    - pattern: import $PKG
+    - pattern: import $PKG as $ALIAS
+    - pattern: from $PKG import $X
+    - pattern: from $PKG import *
+  - metavariable-regex:
+      metavariable: $PKG
+      regex: ^(django|flask|fastapi|sqlalchemy|requests|celery|httpx|aiohttp)(\..*)?$

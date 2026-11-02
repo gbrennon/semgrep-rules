@@ -1,0 +1,17 @@
+rules:
+- id: python-class-max-3-private-methods
+  languages:
+  - python
+  severity: WARNING
+  message: Class $CLASS defines more than 3 private helper methods; extract hidden collaborators
+  metadata:
+    category: design
+    technology:
+    - python
+    confidence: HIGH
+    scope: generic-python
+    policy: opt-in
+    rationale: Multiple private helpers indicate internal complexity that deserves its own dedicated abstraction.
+    references:
+    - https://refactoring.guru/smells/large-class
+  pattern-regex: (?ms)^\s*class\b(?:(?!^\s*class\b).)*?(?:^\s+def\s+_[a-zA-Z0-9][a-zA-Z0-9_]*\s*\(.*?){4,}

@@ -1,0 +1,17 @@
+rules:
+- id: rust-impl-max-5-public-methods
+  languages:
+  - rust
+  message: Impl block for $TYPE defines more than 5 public methods; decompose into smaller traits or components
+  severity: WARNING
+  metadata:
+    category: design
+    technology:
+    - rust
+    confidence: HIGH
+    scope: generic-rust
+    policy: opt-in
+    rationale: Large impl blocks indicate high coupling and broad responsibilities. Decompose into cohesive traits.
+    references:
+    - https://doc.rust-lang.org/book/ch10-02-traits.html
+  pattern-regex: (?ms)^\s*impl\b(?:(?!^\s*impl\b).)*?(?:^\s*pub\s+fn\b.*?){6,}.*?^\s*\}

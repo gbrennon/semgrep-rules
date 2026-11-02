@@ -1,0 +1,28 @@
+rules:
+- id: kotlin-presentation-no-direct-database-access
+  languages:
+  - kotlin
+  severity: ERROR
+  message: Presentation code must delegate database access to application or repository code
+  metadata:
+    category: architecture
+    technology:
+    - kotlin
+    confidence: MEDIUM
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Delivery adapters should parse input, invoke application ports, and serialize output rather than bypassing
+      application policies with direct database calls.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/presentation/**'
+  pattern-either:
+  - pattern: $DB.query(...)
+  - pattern: $DB.execute(...)
+  - pattern: $DB.rawQuery(...)
+  - pattern: $DB.execSQL(...)
+  - pattern: $DB.prepareStatement(...)
+  - pattern: DriverManager.getConnection(...)
+  - pattern: java.sql.DriverManager.getConnection(...)

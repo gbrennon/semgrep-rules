@@ -1,0 +1,23 @@
+rules:
+- id: python-no-private-member-access
+  languages:
+  - python
+  severity: WARNING
+  message: Direct access to private member $OBJ.$M from outside defining scope violates encapsulation
+  metadata:
+    category: design
+    technology:
+    - python
+    confidence: MEDIUM
+    scope: generic-python
+    policy: opt-in
+    rationale: Accessing non-public variables or methods bypasses class encapsulation boundaries.
+    references:
+    - https://peps.python.org/pep-0008/#descriptive-naming-styles
+  patterns:
+  - pattern: $OBJ.$M
+  - pattern-not: self.$M
+  - pattern-not: cls.$M
+  - metavariable-regex:
+      metavariable: $M
+      regex: ^_[a-zA-Z0-9][a-zA-Z0-9_]*(?<!__)$

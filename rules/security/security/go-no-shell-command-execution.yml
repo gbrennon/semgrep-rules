@@ -1,0 +1,24 @@
+rules:
+- id: go-no-shell-command-execution
+  languages:
+  - go
+  message: Do not invoke a shell with a command string; validate arguments and avoid shell interpretation
+  severity: ERROR
+  metadata:
+    category: security
+    technology:
+    - go
+    confidence: HIGH
+    scope: generic-go
+    policy: opt-in
+    rationale: Shell parsing turns otherwise inert input into executable syntax and can enable command injection.
+    references:
+    - https://pkg.go.dev/os/exec#Command
+  patterns:
+  - pattern: exec.Command($SHELL, $MODE, ...)
+  - metavariable-regex:
+      metavariable: $SHELL
+      regex: ^\"(?:sh|bash|cmd|cmd\.exe)\"$
+  - metavariable-regex:
+      metavariable: $MODE
+      regex: ^\"(?:-c|/c)\"$

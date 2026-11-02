@@ -1,0 +1,19 @@
+rules:
+- id: typescript-no-child-process-exec
+  languages:
+  - typescript
+  severity: ERROR
+  message: Avoid child_process.exec with command strings; use an argument-safe API
+  metadata:
+    category: security
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: generic-typescript
+    policy: opt-in
+    rationale: exec invokes a shell and can interpret attacker-controlled command syntax.
+    references:
+    - https://nodejs.org/api/child_process.html#child_processexeccommand-options-callback
+  pattern-either:
+  - pattern: child_process.exec(...)
+  - pattern: $CHILD_PROCESS.exec(...)

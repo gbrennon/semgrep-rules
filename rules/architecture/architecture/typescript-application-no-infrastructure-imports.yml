@@ -1,0 +1,26 @@
+rules:
+- id: typescript-application-no-infrastructure-imports
+  languages:
+  - typescript
+  severity: ERROR
+  message: Application code must depend on ports, not infrastructure adapters
+  metadata:
+    category: architecture
+    technology:
+    - typescript
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Concrete database, filesystem, messaging, and network adapters belong outside application orchestration.
+    references:
+    - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+  paths:
+    include:
+    - '**/application/**'
+  patterns:
+  - pattern-either:
+    - pattern: import $IMPORT from "$MODULE"
+    - pattern: import { ... } from "$MODULE"
+  - metavariable-regex:
+      metavariable: $MODULE
+      regex: .*(?:infrastructure|infra|adapter|adapters).*

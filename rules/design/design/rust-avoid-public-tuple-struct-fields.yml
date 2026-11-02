@@ -1,0 +1,18 @@
+rules:
+- id: rust-avoid-public-tuple-struct-fields
+  languages:
+  - rust
+  message: Tuple struct fields must not be public; encapsulate the inner value
+  severity: ERROR
+  metadata:
+    category: design
+    technology:
+    - rust
+    confidence: HIGH
+    scope: conventional-hexagonal
+    policy: opt-in
+    rationale: Prevent callers from bypassing tuple-struct invariants.
+    references:
+    - https://doc.rust-lang.org/reference/visibility-and-privacy.html
+  patterns:
+  - pattern-regex: (?m)^\s*(?:pub(?:\([^)]*\))?\s+)?struct\s+\w+\s*\(\s*(?:[^)]*,\s*)*pub(?:\([^)]*\))?\s+

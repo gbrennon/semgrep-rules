@@ -1,0 +1,18 @@
+rules:
+- id: java-public-mutable-field
+  languages:
+  - java
+  severity: WARNING
+  message: Avoid public mutable fields; preserve invariants behind methods
+  metadata:
+    category: design
+    technology:
+    - java
+    confidence: HIGH
+    scope: generic-java
+    policy: opt-in
+    rationale: Public non-final fields allow callers to change object state without validation or domain behavior. Prefer
+      private state with intent-revealing methods.
+    references:
+    - https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
+  pattern-regex: (?m)^\s*public\s+(?!static\s+final\b)(?!final\b)[^;=(){}]+\s+[A-Za-z_$][A-Za-z0-9_$]*(?:\s*=\s*[^;]+)?\s*;
