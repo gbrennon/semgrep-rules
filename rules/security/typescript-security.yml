@@ -1,0 +1,70 @@
+rules:
+  - id: typescript-no-dynamic-code-execution
+    languages: [typescript]
+    severity: ERROR
+    message: "Do not evaluate dynamically constructed TypeScript or JavaScript code"
+    metadata:
+      category: security
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "eval and Function execute strings as code and can turn untrusted input into arbitrary code execution."
+      references:
+        - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
+        - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: Function(...)
+      - pattern: new Function(...)
+
+  - id: typescript-no-child-process-exec
+    languages: [typescript]
+    severity: ERROR
+    message: "Avoid child_process.exec with command strings; use an argument-safe API"
+    metadata:
+      category: security
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "exec invokes a shell and can interpret attacker-controlled command syntax."
+      references:
+        - https://nodejs.org/api/child_process.html#child_processexeccommand-options-callback
+    pattern-either:
+      - pattern: child_process.exec(...)
+      - pattern: $CHILD_PROCESS.exec(...)
+
+  - id: typescript-no-inner-html-assignment
+    languages: [typescript]
+    severity: ERROR
+    message: "Avoid assigning untrusted content to innerHTML"
+    metadata:
+      category: security
+      technology: [typescript]
+      confidence: HIGH
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "Writing HTML strings directly into the DOM can introduce cross-site scripting when content is not safely sanitized."
+      references:
+        - https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
+    pattern: $ELEMENT.innerHTML = $VALUE
+
+  - id: typescript-no-insecure-random-for-security-values
+    languages: [typescript]
+    severity: WARNING
+    message: "Do not use Math.random for security-sensitive values; use a cryptographic random source"
+    metadata:
+      category: security
+      technology: [typescript]
+      confidence: MEDIUM
+      scope: generic-typescript
+      policy: opt-in
+      rationale: "Math.random is not designed to be unpredictable and must not generate tokens, secrets, passwords, nonces, or session identifiers."
+      references:
+        - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    patterns:
+      - pattern: $NAME = Math.random(...)
+      - metavariable-regex:
+          metavariable: $NAME
+          regex: '(?i)(?:token|secret|password|passwd|nonce|session|auth|key|salt|credential)'
