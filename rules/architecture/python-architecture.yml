@@ -1,0 +1,79 @@
+rules:
+  - id: python-domain-no-framework-imports
+    languages: [python]
+    severity: ERROR
+    message: "Domain layer must not import web frameworks, ORMs, or network delivery packages"
+    metadata:
+      category: architecture
+      technology: [python]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Clean Architecture requires the business domain to remain pure and completely decoupled from technical frameworks."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/domain/**"
+    patterns:
+      - pattern-either:
+          - pattern: import $PKG
+          - pattern: import $PKG as $ALIAS
+          - pattern: from $PKG import $X
+          - pattern: from $PKG import *
+      - metavariable-regex:
+          metavariable: $PKG
+          regex: '^(django|flask|fastapi|sqlalchemy|requests|celery|httpx|aiohttp)(\..*)?$'
+
+  - id: python-application-no-presentation-dependencies
+    languages: [python]
+    severity: ERROR
+    message: "Application layer must not depend on presentation layer or controllers"
+    metadata:
+      category: architecture
+      technology: [python]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Dependencies must point inward. Application services coordinate domain logic and ports, but must never know how results are presented."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/application/**"
+    patterns:
+      - pattern-either:
+          - pattern: import $PKG
+          - pattern: from $PKG import $X
+          - pattern: from $PKG import *
+      - metavariable-regex:
+          metavariable: $PKG
+          regex: '(?:\b|_)(presentation|views|controllers|api|routes)(\b|_)'
+
+  - id: python-presentation-must-be-thin-delegate
+    languages: [python]
+    severity: ERROR
+    message: "Presentation handlers must not query the database directly; delegate to application use cases"
+    metadata:
+      category: architecture
+      technology: [python]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Presentation controllers must remain thin adapters: parse input DTOs, invoke application service use cases, and serialize responses. Complex querying and business logic belong in application/domain layers."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/presentation/**"
+        - "**/views/**"
+        - "**/controllers/**"
+        - "**/api/**"
+    pattern-either:
+      - pattern: $DB.execute(...)
+      - pattern: $DB.query(...)
+      - pattern: $SESSION.query(...)
+      - pattern: $CURSOR.execute(...)
+      - pattern: $MODEL.objects.filter(...)
+      - pattern: $MODEL.objects.all(...)
+      - pattern: $MODEL.objects.raw(...)
