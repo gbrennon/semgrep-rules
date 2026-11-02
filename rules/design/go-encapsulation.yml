@@ -1,0 +1,35 @@
+rules:
+  - id: go-exported-struct-field
+    languages: [go]
+    message: "Keep struct fields private so invariants can be enforced through behavior"
+    severity: WARNING
+    metadata:
+      category: design
+      technology: [go]
+      confidence: MEDIUM
+      scope: generic-go
+      policy: opt-in
+      rationale: "Exported mutable fields allow callers to bypass validation and make state changes difficult to control."
+      references:
+        - https://go.dev/ref/spec#Exported_identifiers
+    patterns:
+      - pattern-inside: |
+          type $TYPE struct {
+            ...
+          }
+      - pattern-regex: '(?m)^\s*[A-Z][A-Za-z0-9_]*\s+[^`\n]+(?:`[^`]*`)?\s*$'
+
+  - id: go-setter-like-method
+    languages: [go]
+    message: "Prefer intention-revealing behavior over generic setter methods"
+    severity: WARNING
+    metadata:
+      category: design
+      technology: [go]
+      confidence: HIGH
+      scope: generic-go
+      policy: opt-in
+      rationale: "Setter-like APIs expose representation and make it harder to preserve object invariants."
+      references:
+        - https://go.dev/doc/effective_go
+    pattern-regex: '(?m)^\s*func\s*\([^)]*\)\s+Set[A-Z][A-Za-z0-9_]*\s*\('

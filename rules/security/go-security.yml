@@ -1,0 +1,60 @@
+rules:
+  - id: go-no-shell-command-execution
+    languages: [go]
+    message: "Do not invoke a shell with a command string; validate arguments and avoid shell interpretation"
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [go]
+      confidence: HIGH
+      scope: generic-go
+      policy: opt-in
+      rationale: "Shell parsing turns otherwise inert input into executable syntax and can enable command injection."
+      references:
+        - https://pkg.go.dev/os/exec#Command
+    patterns:
+      - pattern: exec.Command($SHELL, $MODE, ...)
+      - metavariable-regex:
+          metavariable: $SHELL
+          regex: '^\"(?:sh|bash|cmd|cmd\.exe)\"$'
+      - metavariable-regex:
+          metavariable: $MODE
+          regex: '^\"(?:-c|/c)\"$'
+
+  - id: go-gob-decoder-untrusted-input
+    languages: [go]
+    message: "Do not decode untrusted data directly with encoding/gob"
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [go]
+      confidence: MEDIUM
+      scope: generic-go
+      policy: opt-in
+      rationale: "gob decoding is not a safe substitute for schema validation when the input is attacker-controlled."
+      references:
+        - https://pkg.go.dev/encoding/gob
+    pattern: gob.NewDecoder(...).Decode(...)
+
+  - id: go-math-rand-for-security-sensitive-values
+    languages: [go]
+    message: "Do not use math/rand for security-sensitive values; use crypto/rand"
+    severity: WARNING
+    metadata:
+      category: security
+      technology: [go]
+      confidence: MEDIUM
+      scope: generic-go
+      policy: opt-in
+      rationale: "math/rand is predictable and is not suitable for tokens, secrets, reset links, or other security-sensitive values."
+      references:
+        - https://pkg.go.dev/math/rand
+        - https://pkg.go.dev/crypto/rand
+    pattern-either:
+      - pattern: rand.Int(...)
+      - pattern: rand.Intn(...)
+      - pattern: rand.Int31(...)
+      - pattern: rand.Int63(...)
+      - pattern: rand.Uint32(...)
+      - pattern: rand.Uint64(...)
+      - pattern: rand.Read(...)
