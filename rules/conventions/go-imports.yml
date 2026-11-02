@@ -1,0 +1,30 @@
+rules:
+  - id: go-no-dot-imports
+    languages: [go]
+    message: "Avoid dot imports; qualify names to keep their package origin clear"
+    severity: WARNING
+    metadata:
+      category: conventions
+      technology: [go]
+      confidence: HIGH
+      scope: generic-go
+      policy: opt-in
+      rationale: "Dot imports obscure where identifiers come from and increase name collision risk."
+      references:
+        - https://go.dev/wiki/CodeReviewComments#imports
+    pattern-regex: '(?m)^\s*(?:import\s+)?\.\s+"[^"\n]+"'
+
+  - id: go-review-blank-imports
+    languages: [go]
+    message: "Review blank imports and document their required initialization side effect"
+    severity: INFO
+    metadata:
+      category: conventions
+      technology: [go]
+      confidence: HIGH
+      scope: generic-go
+      policy: opt-in
+      rationale: "Blank imports are intentionally side-effect-only; unexplained uses can hide dead or accidental dependencies."
+      references:
+        - https://go.dev/ref/spec#Import_declarations
+    pattern-regex: '(?m)^\s*(?:import\s+)?_\s+"[^"\n]+"'
