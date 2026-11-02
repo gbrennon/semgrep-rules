@@ -260,3 +260,39 @@ impl Order {
     }
 }
 ```
+
+## Scala Encapsulation Rules
+
+### `scala-public-mutable-class-members`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `MEDIUM`
+- **File:** `rules/design/scala-encapsulation.yml`
+
+Flags `var` members declared inside classes. Prefer private state and methods
+that enforce valid state transitions.
+
+```scala
+// Non-compliant
+class Account {
+  var balance: BigDecimal = 0
+}
+
+// Compliant
+final class Account private (private var balance: BigDecimal) {
+  def deposit(amount: BigDecimal): Unit =
+    require(amount > 0)
+    balance += amount
+}
+```
+
+### `scala-no-setter-methods`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `HIGH`
+- **File:** `rules/design/scala-encapsulation.yml`
+
+Flags conventional `setX` methods. Prefer operations that express domain intent
+and validate transitions.

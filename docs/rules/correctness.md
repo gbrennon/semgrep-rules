@@ -191,3 +191,66 @@ async fn poll_endpoint() {
     tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
 }
 ```
+
+## `scala-unsafe-result-get`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `MEDIUM`
+- **File:** `rules/correctness/scala-correctness.yml`
+
+### What it Enforces
+Flags unsafe `get` calls on optional or failure-carrying results, including
+`Option.get` and `Try.get`.
+
+### Non-Compliant Code
+```scala
+val customer = customerRepository.find(id).get
+val response = Try(callRemoteService()).get
+```
+
+### Compliant Code
+```scala
+val customer = customerRepository.find(id).fold(defaultCustomer)(identity)
+val response = Try(callRemoteService()).fold(handleFailure, identity)
+```
+
+## `scala-blocking-await-result`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `HIGH`
+- **File:** `rules/correctness/scala-correctness.yml`
+
+### What it Enforces
+Flags `Await.result` calls that synchronously block while a Future completes.
+
+### Non-Compliant Code
+```scala
+val result = Await.result(service.fetch(), 5.seconds)
+```
+
+### Compliant Code
+```scala
+service.fetch().map(render)
+```
+
+## `scala-blocking-thread-sleep`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `HIGH`
+- **File:** `rules/correctness/scala-correctness.yml`
+
+### What it Enforces
+Flags `Thread.sleep`, which blocks the current execution thread.
+
+### Non-Compliant Code
+```scala
+Thread.sleep(1000)
+```
+
+### Compliant Code
+```scala
+scheduler.scheduleOnce(1.second)(continueWork)
+```

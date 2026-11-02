@@ -1,0 +1,80 @@
+rules:
+  - id: scala-domain-no-outward-layer-imports
+    languages: [scala]
+    severity: ERROR
+    message: "Domain code must not import application, presentation, or infrastructure layers"
+    metadata:
+      category: architecture
+      technology: [scala]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "The domain model should remain independent from delivery, orchestration, and technical adapter details."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/domain/**"
+    pattern-regex: '^\s*import\s+[^\n]*(?:application|presentation|infrastructure|infra|adapter|adapters)(?:\.|\s|$)'
+
+  - id: scala-application-no-presentation-imports
+    languages: [scala]
+    severity: ERROR
+    message: "Application code must not import presentation or delivery layers"
+    metadata:
+      category: architecture
+      technology: [scala]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Application services coordinate use cases and ports without coupling to HTTP, CLI, UI, or other delivery mechanisms."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/application/**"
+    pattern-regex: '^\s*import\s+[^\n]*(?:presentation|controller|controllers|view|views|routes|api)(?:\.|\s|$)'
+
+  - id: scala-presentation-no-direct-database-access
+    languages: [scala]
+    severity: ERROR
+    message: "Presentation code must delegate to application use cases instead of querying the database directly"
+    metadata:
+      category: architecture
+      technology: [scala]
+      confidence: MEDIUM
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Delivery adapters should parse input, invoke application ports, and serialize output. Direct database access bypasses application policies and domain rules."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/presentation/**"
+        - "**/controllers/**"
+        - "**/routes/**"
+        - "**/api/**"
+    pattern-either:
+      - pattern: $DB.run(...)
+      - pattern: $DB.execute(...)
+      - pattern: $DB.query(...)
+      - pattern: $CONNECTION.prepareStatement(...)
+      - pattern: $JDBC.query(...)
+
+  - id: scala-application-no-infrastructure-imports
+    languages: [scala]
+    severity: ERROR
+    message: "Application code must depend on ports, not infrastructure adapters"
+    metadata:
+      category: architecture
+      technology: [scala]
+      confidence: HIGH
+      scope: conventional-hexagonal
+      policy: opt-in
+      rationale: "Concrete database, filesystem, messaging, and network adapters belong outside application orchestration and should be supplied through ports."
+      references:
+        - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+    paths:
+      include:
+        - "**/application/**"
+    pattern-regex: '^\s*import\s+[^\n]*(?:infrastructure|infra|adapter|adapters)(?:\.|\s|$)'

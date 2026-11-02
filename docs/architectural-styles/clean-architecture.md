@@ -1,7 +1,7 @@
 # Clean Architecture Style Guide
 
 A complete guide to enforcing Clean Architecture and Hexagonal (Ports &
-Adapters) boundaries in Python and Rust using Semgrep rules.
+Adapters) boundaries in Python, Rust, and Scala using Semgrep rules.
 
 ## Architectural Principles
 
@@ -88,4 +88,10 @@ rules:
   - rules/architecture/rust-service-boundaries.yml
   - rules/design/rust-encapsulation.yml
   - rules/maintainability/rust-control-flow.yml
+
+  # Scala Rules
+  - rules/architecture/scala-layer-boundaries.yml
+  - rules/design/scala-encapsulation.yml
+  - rules/conventions/scala-imports.yml
+  - rules/maintainability/scala-control-flow.yml
 ```

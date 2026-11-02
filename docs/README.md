@@ -1,7 +1,7 @@
 # Semgrep Rules Portfolio
 
-A curated collection of production-grade Semgrep rules for **Python** and
-**Rust**, engineered to enforce clean software design, defensive security,
+A curated collection of production-grade Semgrep rules for **Python**, **Rust**,
+and **Scala**, engineered to enforce clean software design, defensive security,
 runtime correctness, and architectural boundaries.
 
 ## Overview & Taxonomies
@@ -10,12 +10,12 @@ The repository organizes rules into fundamental quality categories:
 
 | Category | Languages | Focus | Guide |
 |---|---|---|---|
-| **Security** | Python, Rust | Injection & memory safety | [Doc](rules/security.md) |
-| **Correctness** | Python, Rust | Logic bugs & lock safety | [Doc](rules/correctness.md) |
-| **Design** | Python, Rust | Encapsulation & method caps | [Doc](rules/design.md) |
-| **Architecture** | Python, Rust | Clean Architecture | [Doc](rules/architecture.md) |
-| **Conventions** | Python, Rust | Layout & imports | [Doc](rules/conventions.md) |
-| **Maintainability**| Python, Rust | Complexity & defaults | [Doc](rules/maintainability.md) |
+| **Security** | Python, Rust, Scala | Injection & memory safety | [Doc](rules/security.md) |
+| **Correctness** | Python, Rust, Scala | Logic bugs & lock safety | [Doc](rules/correctness.md) |
+| **Design** | Python, Rust, Scala | Encapsulation & method caps | [Doc](rules/design.md) |
+| **Architecture** | Python, Rust, Scala | Clean Architecture | [Doc](rules/architecture.md) |
+| **Conventions** | Python, Rust, Scala | Layout & imports | [Doc](rules/conventions.md) |
+| **Maintainability**| Python, Rust, Scala | Complexity | [Doc](rules/maintainability.md) |
 
 ## Architectural Style Guides
 
@@ -44,3 +44,7 @@ Scan your repository using the shared rule suite:
 ```bash
 semgrep scan --config /path/to/semgrep-rules/rules --error .
 ```
+
+Scala projects can use the same portfolio command. Architecture rules are
+opt-in conventions and expect paths such as `domain`, `application`, and
+`presentation`; adjust those rules when a project uses different boundaries.

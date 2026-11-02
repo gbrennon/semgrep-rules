@@ -84,3 +84,34 @@ fn drain_item(item: &Item) {
     }
 }
 ```
+
+## `scala-control-flow-nesting-above-2`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `MEDIUM`
+- **File:** `rules/maintainability/scala-control-flow.yml`
+
+### What it Enforces
+Flags three nested `if` blocks as a signal to apply guard clauses or extract a
+cohesive helper.
+
+### Non-Compliant Code
+```scala
+if (request.isValid) {
+  if (user.isActive) {
+    if (account.hasCredit) {
+      charge(account)
+    }
+  }
+}
+```
+
+### Compliant Code
+```scala
+if (!request.isValid || !user.isActive || !account.hasCredit) return
+charge(account)
+```
+
+The rule is intentionally a conservative heuristic; review generated code and
+formatting conventions before enabling it as an error.

@@ -75,3 +75,28 @@ mod tests {
     fn test_calc() {}
 }
 ```
+
+## `scala-no-wildcard-imports`
+
+- **Severity:** `WARNING`
+- **Languages:** Scala
+- **Confidence:** `HIGH`
+- **File:** `rules/conventions/scala-imports.yml`
+
+### What it Enforces
+Prohibits wildcard imports such as `import scala.collection._` and Scala 3
+star imports.
+
+### Why it Matters
+Explicit imports make dependencies visible, reduce name collisions, and keep
+static analysis and code review precise.
+
+### Non-Compliant Code
+```scala
+import scala.collection._
+```
+
+### Compliant Code
+```scala
+import scala.collection.immutable.Seq
+```
