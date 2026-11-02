@@ -1,0 +1,52 @@
+rules:
+  - id: java-runtime-command-execution
+    languages: [java]
+    severity: ERROR
+    message: "Direct Runtime.exec or ProcessBuilder use requires strict input validation; avoid shell command injection"
+    metadata:
+      category: security
+      technology: [java]
+      confidence: MEDIUM
+      scope: generic-java
+      policy: opt-in
+      rationale: "Runtime.exec and ProcessBuilder cross an operating-system trust boundary. Building commands from untrusted or insufficiently validated data can enable command injection, especially when a shell is invoked."
+      references:
+        - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runtime.html#exec(java.lang.String)
+        - https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ProcessBuilder.html
+    pattern-either:
+      - pattern: Runtime.getRuntime().exec(...)
+      - pattern: new ProcessBuilder(...)
+
+  - id: java-insecure-objectinputstream-deserialization
+    languages: [java]
+    severity: ERROR
+    message: "Java native deserialization is unsafe for untrusted data"
+    metadata:
+      category: security
+      technology: [java]
+      confidence: HIGH
+      scope: generic-java
+      policy: opt-in
+      rationale: "ObjectInputStream can invoke attacker-controlled gadget chains while reconstructing objects. Prefer a safe, schema-validated data format for untrusted input."
+      references:
+        - https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
+    pattern: $STREAM.readObject()
+
+  - id: java-weak-message-digest
+    languages: [java]
+    severity: WARNING
+    message: "Do not use MD5 or SHA-1 for security-sensitive hashing; use a modern collision-resistant algorithm"
+    metadata:
+      category: security
+      technology: [java]
+      confidence: HIGH
+      scope: generic-java
+      policy: opt-in
+      rationale: "MD5 and SHA-1 have practical collision attacks and should not protect passwords, signatures, tokens, or other security-sensitive data."
+      references:
+        - https://csrc.nist.gov/projects/hash-functions
+    patterns:
+      - pattern: MessageDigest.getInstance($ALGORITHM)
+      - metavariable-regex:
+          metavariable: $ALGORITHM
+          regex: '^"(?:MD5|SHA-?1)"$'
