@@ -1,7 +1,17 @@
 # Design & Encapsulation Rules Reference
 
-Semgrep design rules enforcing structural encapsulation, single responsibility,
-and cohesive boundaries in Python and Rust.
+Opinionated Semgrep design rules enforcing structural encapsulation, single
+responsibility, controlled mutation, and cohesive boundaries. The detailed
+examples are representative. Language packs are:
+
+- Python: `rules/design/python-design.yml`
+- Rust: `rules/design/rust-encapsulation.yml`
+- Scala: `rules/design/scala-encapsulation.yml`
+- Go: `rules/design/go-encapsulation.yml`
+- Haskell: `rules/design/haskell-encapsulation.yml`
+- TypeScript: `rules/design/typescript-encapsulation.yml`
+- Java: `rules/design/java-encapsulation.yml`
+- Kotlin: `rules/design/kotlin-encapsulation.yml`
 
 ## `python-class-max-5-public-methods`
 
